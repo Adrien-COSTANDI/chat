@@ -23,11 +23,11 @@ function handleLeave() {
 </script>
 
 <template>
-    <v-row class="hover:bg-gray-200" no-gutters align="start" @mouseover="handleOver" @mouseleave="handleLeave">
-        <div>
-            <v-avatar v-show="!props.continuation" class="mt-1 bg-green">
+    <v-row class="hover:bg-gray-200" no-gutters align="center" @mouseover="handleOver" @mouseleave="handleLeave">
+        <div class="ml-3">
+            <v-avatar v-show="!props.continuation">
                 <v-img
-                        v-if="false"
+                        v-if="true"
                         alt="Avatar"
                         src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
                 />
