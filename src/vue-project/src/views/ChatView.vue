@@ -3,7 +3,7 @@ import Message from "@/components/Message.vue";
 </script>
 
 <template>
-    <v-row>
+    <v-row class="fixed top-0 w-full">
         <v-col>
             <Message/>
             <Message continuation/>
@@ -11,6 +11,13 @@ import Message from "@/components/Message.vue";
             <Message/>
         </v-col>
     </v-row>
+    <div class="fixed bottom-0 w-full">
+        <v-text-field
+                density="compact"
+                label="Envoyer un message"
+                variant="solo"
+                hide-details
+                single-line
+        ></v-text-field>
+    </div>
 </template>
-
-<style scoped></style>
