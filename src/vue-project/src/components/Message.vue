@@ -23,8 +23,8 @@ function handleLeave() {
 </script>
 
 <template>
-    <v-row class="hover:bg-gray-200" no-gutters align="center" @mouseover="handleOver" @mouseleave="handleLeave">
-        <div class="ml-3">
+    <v-row class="hover:bg-gray-200" no-gutters align="start" @mouseover="handleOver" @mouseleave="handleLeave">
+        <div class="ml-3 mt-1">
             <v-avatar v-show="!props.continuation">
                 <v-img
                         v-if="true"
@@ -53,6 +53,9 @@ function handleLeave() {
                     }}</span></p>
             </div>
             <div>
+                <p>Message content</p>
+                <p>Message content</p>
+                <p>Message content</p>
                 <p>Message content</p>
             </div>
         </div>
