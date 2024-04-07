@@ -39,14 +39,18 @@ function handleLeave() {
             </v-avatar>
 
             <div class="mr-10" v-show="!isHovered && props.continuation"></div>
-            <div class="text-sm-caption mr-2" v-show="isHovered && props.continuation">{{ new Date().toLocaleTimeString().slice(0, -3) }}</div>
+            <div class="text-sm-caption mr-2" v-show="isHovered && props.continuation">
+                {{ new Date().toLocaleTimeString().slice(0, -3) }}
+            </div>
         </div>
 
 
         <div class="ml-3">
             <div v-show="!props.continuation">
                 <p class="font-weight-bold">Username <span v-show="!props.continuation"
-                                  class="text-sm-caption">{{ new Date().toLocaleString().slice(0, -3) }}</span></p>
+                                                           class="text-sm-caption">{{
+                        new Date().toLocaleString().slice(0, -3)
+                    }}</span></p>
             </div>
             <div>
                 <p>Message content</p>
