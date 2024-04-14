@@ -1,23 +1,41 @@
 <script setup lang="ts">
-import Message from "@/components/Message.vue";
-</script>
+import Chat from "@/components/Chat.vue";
+import MessageService from "@/services/MessageService";
+import { ref } from "vue";
+
+const messageService = MessageService.instance
+const content = ref("")
+
+function handleSubmit() {
+    const trimmed: string = content.value.trim()
+    if (trimmed === "") return
+
+    messageService.addMessage({
+        sender: {
+            username: 'toto'
+        },
+        date: new Date(),
+        content: trimmed
+    })
+    content.value = ""
+}</script>
 
 <template>
-    <v-row class="fixed top-0 w-full">
+    <v-container fluid>
         <v-col>
-            <Message/>
-            <Message continuation/>
-            <Message continuation/>
-            <Message/>
+            <Chat :messages="messageService.getMessages()"/>
+            <form @submit.prevent="handleSubmit">
+                <v-text-field
+                        v-model="content"
+                        class="w-full mt-2"
+                        density="compact"
+                        label="Envoyer un message"
+                        placeholder="Envoyer un message"
+                        variant="outlined"
+                        hide-details
+                        single-line
+                ></v-text-field>
+            </form>
         </v-col>
-    </v-row>
-    <div class="fixed bottom-0 w-full">
-        <v-text-field
-                density="compact"
-                label="Envoyer un message"
-                variant="solo"
-                hide-details
-                single-line
-        ></v-text-field>
-    </div>
+    </v-container>
 </template>

@@ -2,8 +2,20 @@
 
 import { ref } from "vue";
 
+export interface MessageData {
+    sender: User,
+    date: Date,
+    content: string;
+}
+
+export interface User {
+    username: string,
+    avatar? : string
+}
+
 interface Props {
-    continuation?: boolean
+    continuation?: boolean,
+    message: MessageData
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,40 +35,36 @@ function handleLeave() {
 </script>
 
 <template>
-    <v-row class="hover:bg-gray-200" no-gutters align="start" @mouseover="handleOver" @mouseleave="handleLeave">
-        <div class="ml-3 mt-1">
-            <v-avatar v-show="!props.continuation">
+    <v-row :class="props.continuation ? 'mt-0' : 'mt-1'" class="hover:bg-gray-200" no-gutters align="start" @mouseover="handleOver" @mouseleave="handleLeave">
+        <div class="ml-3 mr-1 mt-1">
+            <v-avatar v-show="!props.continuation" class="hover:cursor-pointer">
                 <v-img
-                        v-if="true"
+                        v-if="message.sender.avatar"
                         alt="Avatar"
-                        src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
+                        :src="message.sender.avatar"
                 />
                 <span
                         v-else
                         class="rounded bg-blue-accent-3 pa-4 font-weight-bold">
-                    Ce
+                    {{message.sender.username.slice(0, 2)}}
                 </span>
             </v-avatar>
 
-            <div class="mr-10" v-show="!isHovered && props.continuation"></div>
-            <div class="text-sm-caption mr-2" v-show="isHovered && props.continuation">
-                {{ new Date().toLocaleTimeString().slice(0, -3) }}
+            <div class="mr-10" v-show="props.continuation && !isHovered"></div>
+            <div class="text-sm-caption font-weight-thin ml-[9px]" v-show="props.continuation && isHovered">
+                {{ message.date.toLocaleTimeString().slice(0, -3) }}
             </div>
         </div>
 
-
         <div class="ml-3">
             <div v-show="!props.continuation">
-                <p class="font-weight-bold">Username <span v-show="!props.continuation"
-                                                           class="text-sm-caption">{{
-                        new Date().toLocaleString().slice(0, -3)
+                <p class="font-weight-medium">{{message.sender.username}} <span v-show="!props.continuation"
+                                                           class="text-sm-caption font-weight-thin">{{
+                        message.date.toLocaleString().slice(0, -3)
                     }}</span></p>
             </div>
             <div>
-                <p>Message content</p>
-                <p>Message content</p>
-                <p>Message content</p>
-                <p>Message content</p>
+                <p class="-mt-0.5 mb-0.5">{{message.content}}</p>
             </div>
         </div>
     </v-row>
