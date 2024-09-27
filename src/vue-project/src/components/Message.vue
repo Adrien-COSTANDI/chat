@@ -32,6 +32,21 @@ function handleLeave() {
     isHovered.value = false
 }
 
+function parseMessageContent(content: string): string {
+    const urlRegex = /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*))/g;
+
+    const matches = content.match(urlRegex);
+    if (!matches) return content;
+
+    let output = content;
+
+    for(let match of matches){
+        output = output.replace(match, `<a class="text-blue text-decoration-underline" target="_blank" href="${match}">${match}</a>`);
+    }
+
+    return output;
+}
+
 </script>
 
 <template>
@@ -45,14 +60,14 @@ function handleLeave() {
                 />
                 <span
                         v-else
-                        class="rounded bg-blue-accent-3 pa-4 font-weight-bold">
+                        class="rounded text-center bg-blue-accent-3 pa-4 font-weight-bold">
                     {{message.sender.username.slice(0, 2)}}
                 </span>
             </v-avatar>
 
             <div class="mr-10" v-show="props.continuation && !isHovered"></div>
-            <div class="text-sm-caption font-weight-thin ml-[9px]" v-show="props.continuation && isHovered">
-                {{ message.date.toLocaleTimeString().slice(0, -3) }}
+            <div class="text-sm-caption font-weight-thin ml-[8px]" v-show="props.continuation && isHovered">
+                {{ new Date(message.date).toLocaleTimeString().slice(0, -3) }}
             </div>
         </div>
 
@@ -60,11 +75,11 @@ function handleLeave() {
             <div v-show="!props.continuation">
                 <p class="font-weight-medium">{{message.sender.username}} <span v-show="!props.continuation"
                                                            class="text-sm-caption font-weight-thin">{{
-                        message.date.toLocaleString().slice(0, -3)
+                        new Date(message.date).toLocaleString().slice(0, -3)
                     }}</span></p>
             </div>
             <div>
-                <p class="-mt-0.5 mb-0.5">{{message.content}}</p>
+                <p class="-mt-0.5 mb-0.5" v-html="parseMessageContent(message.content)"></p>
             </div>
         </div>
     </v-row>

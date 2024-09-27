@@ -15,7 +15,7 @@ class MessageService {
         return MessageService.INSTANCE;
     }
 
-    private messages: Ref<MessageData[]>= ref([
+    /*private messages: Ref<MessageData[]>= ref([
         {
             date: new Date(2024, 4, 14, 11, 32, 12),
             sender: {
@@ -47,14 +47,15 @@ class MessageService {
             },
             content: "tg"
         },
-    ])
+    ])*/
 
     public addMessage(message: MessageData): void {
-        this.messages.value = [...this.messages.value, message]
+        // this.messages.value = [...this.messages.value, message]
     }
 
-    public getMessages(): MessageData[] {
-        return this.messages.value;
+    public async getMessages(): Promise<MessageData[]> {
+        // return this.messages.value;
+        return await fetch("http://localhost:8080/api/messages").then(response => response.json()) as MessageData[]
     }
 }
 

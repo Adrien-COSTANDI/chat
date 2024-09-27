@@ -7,23 +7,24 @@ const messageService = MessageService.instance
 const content = ref("")
 
 function handleSubmit() {
-    const trimmed: string = content.value.trim()
-    if (trimmed === "") return
+    // const trimmed: string = content.value.trim()
+    // if (trimmed === "") return
+    //
+    // messageService.addMessage({
+    //     sender: {
+    //         username: 'toto'
+    //     },
+    //     date: new Date(),
+    //     content: trimmed
+    // })
 
-    messageService.addMessage({
-        sender: {
-            username: 'toto'
-        },
-        date: new Date(),
-        content: trimmed
-    })
     content.value = ""
 }</script>
 
 <template>
     <v-container fluid>
         <v-col>
-            <Chat :messages="messageService.getMessages()"/>
+            <Chat />
             <form @submit.prevent="handleSubmit">
                 <v-text-field
                         v-model="content"
