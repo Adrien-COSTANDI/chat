@@ -1,0 +1,13 @@
+@import './base.css';
+
+:root {
+    --background-hover: var(--p-surface-200);
+    --scrollbar-background: var(--p-surface-300);
+    --avatar-border: var(--p-surface-300);
+}
+
+:root[class="my-app-dark"] {
+    --background-hover: var(--p-surface-700);
+    --scrollbar-background: var(--p-surface-600);
+    --avatar-border: var(--p-surface-600);
+}

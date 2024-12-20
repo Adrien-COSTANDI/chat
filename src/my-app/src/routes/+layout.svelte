@@ -1,34 +1,36 @@
-<Grid container direction="col" justifyContent="between">
-    <Grid>
-        <Navbar class="z-50">
-            <NavBrand href="/">
-                <img src="/logo.webp" class="me-3 h-4 sm:h-9" alt="App logo"/>
-                <span class="self-center whitespace-nowrap text-3xl font-semibold dark:text-white">Snoopshit</span>
-            </NavBrand>
-            <ul class="flex justify-center items-center gap-3">
-                <li>
-                    <Avatar src=""/>
-                </li>
-                <li>
-                    <P>Username</P>
-                </li>
-            </ul>
-        </Navbar>
-    </Grid>
-    <Grid>
-        <slot/>
-    </Grid>
-    <Grid>
-        <div>footer</div>
-    </Grid>
-</Grid>
+<slot/>
+
+<!--<Grid container direction="col" justifyContent="between">-->
+<!--    <Grid>-->
+<!--        <Navbar class="z-50">-->
+<!--            <NavBrand href="/">-->
+<!--                <img src="/logo.webp" class="me-3 h-4 sm:h-9" alt="App logo"/>-->
+<!--                <span class="self-center whitespace-nowrap text-3xl font-semibold dark:text-white">Snoopshit</span>-->
+<!--            </NavBrand>-->
+<!--            <ul class="flex justify-center items-center gap-3">-->
+<!--                <li>-->
+<!--                    <Avatar src=""/>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <P>Username</P>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </Navbar>-->
+<!--    </Grid>-->
+<!--    <Grid>-->
+<!--        <slot/>-->
+<!--    </Grid>-->
+<!--    <Grid>-->
+<!--        <div>footer</div>-->
+<!--    </Grid>-->
+<!--</Grid>-->
 
 
-<script lang="ts">
-    import "../app.pcss"
-    import Grid from "$lib/components/Grid.svelte";
-    import { Avatar, Navbar, NavBrand, P } from "flowbite-svelte";
-</script>
+<!--<script lang="ts">-->
+<!--    import "../app.pcss"-->
+<!--    import Grid from "$lib/components/Grid.svelte";-->
+<!--    import { Avatar, Navbar, NavBrand, P } from "flowbite-svelte";-->
+<!--</script>-->
 
 <!--<header class="fixed top-0 left-0 w-full h-16 bg-gray-800 text-white flex items-center justify-between px-4 z-50">-->
 <!--    Header-->
