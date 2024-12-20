@@ -31,10 +31,12 @@ function sendMessage() {
         <div class="message-bubble">{{ message.text }}</div>
       </div>
     </div>
-    <div class="message-prompt">
+
+    <Form @submit.prevent="sendMessage" class="message-prompt">
       <InputText v-model="newMessage" placeholder="Type a message..." class="message-input" />
       <Button label="Send" @click="sendMessage" class="send-button" />
-    </div>
+<!--      TODO : changer la couleur de bg du bouton-->
+    </Form>
   </div>
 </template>
 
