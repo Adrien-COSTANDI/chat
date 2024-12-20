@@ -7,6 +7,10 @@
   font-weight: normal;
 }
 
+:root {
+  --header-size: 40px;
+}
+
 body {
   min-height: 100vh;
   line-height: 1.4;
