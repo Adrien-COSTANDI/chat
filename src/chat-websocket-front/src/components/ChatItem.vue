@@ -31,7 +31,7 @@ defineProps<{
 }
 
 .chat-preview:hover {
-  background: var(--background-hover);
+  background: var(--p-hover-background-color);
 }
 
 .avatar {
@@ -39,7 +39,7 @@ defineProps<{
   height: 40px;
   flex-shrink: 0;
   margin-right: 10px;
-  border: solid 1px var(--avatar-border);
+  border: solid 1px var(--avatar-border-color);
   border-radius: 50%;
 }
 

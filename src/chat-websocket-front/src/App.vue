@@ -13,14 +13,23 @@ if (darkModeStore.darkMode) {
 }
 
 function toggleDarkMode() {
-  console.log(darkModeStore.darkMode)
   darkModeStore.toggleDarkMode()
   document.documentElement.classList.toggle('my-app-dark')
 }
 
 const chats: ChatPreview[] = [
   {
-    userName: 'Username',
+    userName: 'Bob',
+    lastMessage: 'Preview of the last message',
+    avatar: 'icon'
+  },
+  {
+    userName: 'Bobo',
+    lastMessage: 'Preview of the last message',
+    avatar: 'icon'
+  },
+  {
+    userName: 'Boby',
     lastMessage: 'Preview of the last message',
     avatar: 'icon'
   },
@@ -40,42 +49,42 @@ const chats: ChatPreview[] = [
     avatar: 'icon'
   },
   {
-    userName: 'zefzef',
+    userName: 'zefegr',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   },
   {
-    userName: 'fhrj',
+    userName: 'erty',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   },
   {
-    userName: 'Toto',
+    userName: 'bgf',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   },
   {
-    userName: 'zefzef',
+    userName: 'iuth',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   },
   {
-    userName: 'fhrj',
+    userName: 'vbsn',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   },
   {
-    userName: 'Toto',
+    userName: 'dilgfh',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   },
   {
-    userName: 'zefzef',
+    userName: 'cn,fjghkf',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   },
   {
-    userName: 'fhrj',
+    userName: 'hjg',
     lastMessage: 'Ceci est le dernier message de la conv',
     avatar: 'icon'
   }
@@ -91,7 +100,7 @@ const chats: ChatPreview[] = [
       </Button>
     </header>
     <main>
-      <Splitter style="height: 100%">
+      <Splitter :gutter-size="6" state-key="splitter-position" state-storage="local" style="height: 100%">
         <SplitterPanel class="flex items-center justify-center" :size="20" :minSize="10">
           <ChatList :chats="chats" />
         </SplitterPanel>
@@ -120,6 +129,11 @@ header h2 {
 
 main {
   height: calc(100vh - var(--header-size));
+}
+
+.dark-mode-toggle {
+  background: var(--dark-mode-button-color);
+  padding: 10px 9px;
 }
 
 .dark-mode::after {
