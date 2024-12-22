@@ -4,19 +4,21 @@
 }
 
 :root:not([class="my-app-dark"]) {
-    --scrollbar-color: var(--p-primary-200);
+    --scrollbar-color: var(--p-secondary-200);
     --avatar-border-color: var(--p-surface-800);
-    --self-chat-color: var(--p-primary-700);
-    --other-chat-color: var(--p-primary-500);
+    --self-chat-color: var(--p-secondary-200);
+    --other-chat-color: var(--p-secondary-100);
     --dark-mode-button-color: var(--p-surface-100);
+    --p-surface: var(--p-surface-100);
 }
 
 :root[class="my-app-dark"] {
-    --scrollbar-color: var(--p-primary-600);
+    --scrollbar-color: var(--p-primary-700);
     --avatar-border-color: var(--p-surface-300);
-    --self-chat-color: var(--p-primary-600);
-    --other-chat-color: var(--p-primary-500);
+    --self-chat-color: var(--p-primary-700);
+    --other-chat-color: var(--p-primary-900);
     --dark-mode-button-color: var(--p-surface-800);
+    --p-surface: var(--p-surface-800);
 }
 
 
