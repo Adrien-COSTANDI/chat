@@ -18,9 +18,10 @@ defineProps<{
       background: 'var(--scrollbar-color)'
     }
   }">
-    <Button as="router-link" unstyled class="buttonLink" :to="chat.userName" v-for="(chat, index) in chats" :key="chat.userName">
+    <Button as="router-link" unstyled class="buttonLink" :to="chat.user.name" v-for="(chat, index) in chats"
+            :key="chat.user.name">
       <Divider style="margin: 0" v-if="index !== 0" />
-      <ChatItem class="buttonLink" :class="$route.params.userName === chat.userName ? 'selected' : ''" :chat="chat"/>
+      <ChatItem class="buttonLink" :class="$route.params.userName === chat.user.name ? 'selected' : ''" :chat="chat"/>
     </Button>
 
   </ScrollPanel>
@@ -34,10 +35,6 @@ defineProps<{
   }
 
   .buttonLink:active {
-    background: var(--p-selected-background-color);
-  }
-
-  .selected {
     background: var(--p-selected-background-color);
   }
 </style>

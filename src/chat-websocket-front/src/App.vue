@@ -3,92 +3,20 @@ import Button from 'primevue/button'
 import SplitterPanel from 'primevue/splitterpanel'
 import Splitter from 'primevue/splitter'
 import ChatList from '@/components/ChatList.vue'
-import type { ChatPreview } from '@/services/ChatService.ts'
+import { chatPreviews } from '@/services/ChatService.ts'
 import { useDarkModeStore } from '@/stores/darkMode'
 
-const darkModeStore = useDarkModeStore()
+const darkModeStore = useDarkModeStore();
 
 if (darkModeStore.darkMode) {
-  document.documentElement.classList.toggle('my-app-dark')
+  document.documentElement.classList.toggle('my-app-dark');
 }
 
 function toggleDarkMode() {
-  darkModeStore.toggleDarkMode()
-  document.documentElement.classList.toggle('my-app-dark')
+  darkModeStore.toggleDarkMode();
+  document.documentElement.classList.toggle('my-app-dark');
 }
 
-const chats: ChatPreview[] = [
-  {
-    userName: 'Bob',
-    lastMessage: 'Preview of the last message',
-    avatar: 'icon'
-  },
-  {
-    userName: 'Bobo',
-    lastMessage: 'Preview of the last message',
-    avatar: 'icon'
-  },
-  {
-    userName: 'Boby',
-    lastMessage: 'Preview of the last message',
-    avatar: 'icon'
-  },
-  {
-    userName: 'zefzef',
-    lastMessage: 'lorem djz eoijzoe fij oezijf ozjfz oejif ozejf o foz fzojiz odaoi izzd o ozdiazi i zi sda az dazd dz d d a aazd  adzdzaz dadz azd adzazda',
-    avatar: 'icon'
-  },
-  {
-    userName: 'Username',
-    lastMessage: 'Preview of the last message',
-    avatar: 'icon'
-  },
-  {
-    userName: 'Toto',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'zefegr',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'erty',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'bgf',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'iuth',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'vbsn',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'dilgfh',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'cn,fjghkf',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  },
-  {
-    userName: 'hjg',
-    lastMessage: 'Ceci est le dernier message de la conv',
-    avatar: 'icon'
-  }
-]
 </script>
 
 <template>
@@ -102,7 +30,7 @@ const chats: ChatPreview[] = [
     <main>
       <Splitter :gutter-size="6" state-key="splitter-position" state-storage="local" style="height: 100%">
         <SplitterPanel class="flex items-center justify-center" :size="20" :minSize="10">
-          <ChatList :chats="chats" />
+          <ChatList :chats="chatPreviews"/>
         </SplitterPanel>
         <SplitterPanel class="flex items-center justify-center" :size="80" :minSize="50">
           <RouterView />
