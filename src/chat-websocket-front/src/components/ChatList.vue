@@ -20,8 +20,9 @@ defineProps<{
   }">
     <Button as="router-link" unstyled class="buttonLink" :to="chat.user.name" v-for="(chat, index) in chats"
             :key="chat.user.name">
-      <Divider style="margin: 0" v-if="index !== 0" />
-      <ChatItem class="buttonLink" :class="$route.params.userName === chat.user.name ? 'selected' : ''" :chat="chat"/>
+      <Divider style="margin: 0" v-if="index !== 0"/>
+      <ChatItem class="buttonLink" :class="$route.params.userName === chat.user.name ? 'selected' : ''"
+                :chatPreview="chat"/>
     </Button>
 
   </ScrollPanel>
@@ -29,12 +30,16 @@ defineProps<{
 </template>
 
 <style scoped>
-  .buttonLink {
-    color: inherit;
-    text-decoration: inherit;
-  }
+.buttonLink {
+  color: inherit;
+  text-decoration: inherit;
+}
 
-  .buttonLink:active {
-    background: var(--p-selected-background-color);
-  }
+.buttonLink:active {
+  background: var(--p-selected-background-color);
+}
+
+.selected {
+  background: var(--p-selected-background-color);
+}
 </style>

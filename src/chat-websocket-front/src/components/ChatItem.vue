@@ -5,7 +5,7 @@ import icon from '@/assets/logo.svg'
 import type { ChatPreview } from '@/services/ChatService.ts'
 
 defineProps<{
-  chat: ChatPreview
+  chatPreview: ChatPreview
 }>()
 </script>
 
@@ -14,10 +14,10 @@ defineProps<{
     <Avatar :image="icon" class="avatar" shape="circle" />
     <div class="content">
       <div class="header">
-        <span class="username">{{ chat.user.name }}</span>
+        <span class="username">{{ chatPreview.user.name }}</span>
         <span class="date crop">19/12/2024</span>
       </div>
-      <div class="last-message crop">{{ chat.lastMessage }}</div>
+      <div class="last-message crop">{{ chatPreview.lastMessage }}</div>
     </div>
   </div>
 </template>

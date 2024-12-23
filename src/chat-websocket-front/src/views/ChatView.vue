@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue';
-import icon from "@/assets/logo.svg";
-import Avatar from "primevue/avatar";
 import MessageInput from "@/components/MessageInput.vue";
 import { type Chat, getChat, myself } from "@/services/ChatService.ts";
 import { useRoute } from "vue-router";
+import MessageBubble from "@/views/MessageBubble.vue";
 
 const chat = ref({messages: []} as Chat);
 
@@ -46,21 +45,14 @@ onMounted(() => {
     <!--        <i :class="{ 'lens-dark': darkModeStore.darkMode, 'lens-light': !darkModeStore.darkMode }" />-->
     <!--      </Button>-->
     <!--    </header>-->
-    <div class="messages">
-      <div
+    <main class="messages">
+      <MessageBubble
           v-for="message in chat.messages"
           :key="message.id"
-          class="message"
-          :class="{ self: message.user.id === myself.id, other: message.user.id !== myself.id }"
-      >
-        <Avatar :image="icon" class="avatar" shape="circle"/>
-        <div class="message-bubble">
-          <span class="content">{{ message.content }}</span>
-          <span class="time">14:35</span>
-        </div>
-      </div>
+          :message="message"
+      />
       <div ref="bottomEl"></div>
-    </div>
+    </main>
 
     <MessageInput @sendMessage="sendMessage"/>
   </div>
@@ -102,50 +94,6 @@ header {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.message {
-  display: flex;
-  max-width: 100%;
-  align-items: start;
-  margin: 0 10px;
-}
-
-.avatar {
-  margin-top: 5px;
-  margin-right: 10px;
-  margin-left: 10px;
-  border-radius: 50%;
-  border: solid 1px var(--avatar-border-color);
-}
-
-.message.self {
-  flex-direction: row-reverse;
-}
-
-.message.other {
-  justify-content: flex-start;
-}
-
-.message-bubble {
-  padding: 10px 15px;
-  border-radius: 15px;
-  background-color: var(--other-chat-color);
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.message-bubble .time {
-  font-size: 0.7rem;
-  text-align: end;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-style: italic;
-}
-
-.message.self .message-bubble {
-  background-color: var(--self-chat-color);
 }
 
 </style>
