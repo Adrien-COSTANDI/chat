@@ -83,6 +83,7 @@ header {
 }
 
 .chat-container {
+  padding-top: 16px;
   display: flex;
   flex-direction: column;
   height: 100%;
