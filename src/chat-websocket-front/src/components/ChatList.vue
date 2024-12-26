@@ -20,9 +20,9 @@ defineProps<{
   }">
     <Button as="router-link" unstyled class="buttonLink" :to="chat.user.name" v-for="(chat, index) in chats"
             :key="chat.user.name">
-      <Divider style="margin: 0" v-if="index !== 0"/>
       <ChatItem class="buttonLink" :class="$route.params.userName === chat.user.name ? 'selected' : ''"
                 :chatPreview="chat"/>
+      <Divider style="margin: 0"/>
     </Button>
 
   </ScrollPanel>
