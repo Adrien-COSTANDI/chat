@@ -52,24 +52,22 @@ header {
   flex-direction: row-reverse;
 }
 
-.message.other {
-  justify-content: flex-start;
-}
-
 .message-bubble {
-  padding: 10px 15px;
+  padding: 7px 15px;
   border-radius: 15px;
   background-color: var(--other-chat-color);
-  font-size: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 2px;
+}
+
+.message-bubble:hover, .message.self .message-bubble:hover {
+  box-shadow: 3px 3px 10px var(--p-hover-background-color);
 }
 
 .message-bubble .time {
   font-size: 0.7rem;
   text-align: end;
-  margin-top: 0;
-  margin-bottom: 0;
   font-style: italic;
 }
 
