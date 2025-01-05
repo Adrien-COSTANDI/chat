@@ -8,7 +8,11 @@ import Aura from '@primevue/themes/aura'
 import App from './App.vue'
 import router from './router'
 import { definePreset } from '@primevue/themes'
+import { userAuthStore } from "@/stores/userAuth.ts";
 
+
+const app = createApp(App)
+const pinia = createPinia();
 const MyPreset = definePreset(Aura, {
   semantic: {
     primary: {
@@ -98,7 +102,15 @@ const MyPreset = definePreset(Aura, {
   },
 });
 
-const app = createApp(App)
+
+router.beforeEach(async (to, from) => {
+  const userStore = userAuthStore();
+  if (!userStore.isAuthenticated() && to.name !== 'Login') {
+    // redirect the user to the login page
+    return {name: 'Login'}
+  }
+})
+
 app.use(PrimeVue, {
   theme: {
     preset: MyPreset,
@@ -108,7 +120,7 @@ app.use(PrimeVue, {
   },
 })
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 
 app.mount('#app')
