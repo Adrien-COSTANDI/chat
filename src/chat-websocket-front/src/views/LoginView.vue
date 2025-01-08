@@ -15,6 +15,7 @@ const username = ref('')
 const password = ref('')
 const rememberMe = ref(false)
 const badLogin = ref(false)
+const router = useRouter()
 
 // Handle form submission
 const handleLogin = () => {
@@ -24,6 +25,7 @@ const handleLogin = () => {
       name: "Adrien",
       avatar: "AvatarAdrien",
     })
+    router.push({name: 'Root'});
   } else {
     badLogin.value = true;
   }

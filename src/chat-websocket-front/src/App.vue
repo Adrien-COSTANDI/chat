@@ -19,7 +19,7 @@ function toggleDarkMode() {
 
 function logout() {
   userAuthStore().logout();
-  router.push({name: 'Root'});
+  router.push({name: 'Login'});
 }
 </script>
 

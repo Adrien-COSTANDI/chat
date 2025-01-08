@@ -30,7 +30,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach((to, from) => {
   const userStore = userAuthStore();
   if (!userStore.isAuthenticated() && to.name !== 'Login' && to.name !== 'Register') {
     // redirect the user to the login page
