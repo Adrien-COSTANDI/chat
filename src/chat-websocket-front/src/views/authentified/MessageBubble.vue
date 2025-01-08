@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Message, myself } from "@/services/ChatService.js";
+import { type Message, myself } from "@/services/ChatService.ts";
 import icon from '@/assets/logo.svg'
 import Avatar from 'primevue/avatar'
 

@@ -3,6 +3,10 @@
 :root {
 }
 
+.credential, .credential input {
+    width: 15em;
+}
+
 :root:not([class="my-app-dark"]) {
     --scrollbar-color: var(--p-secondary-200);
     --avatar-border-color: var(--p-surface-800);

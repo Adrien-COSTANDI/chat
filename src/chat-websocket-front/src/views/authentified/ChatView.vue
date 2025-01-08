@@ -3,7 +3,7 @@ import { onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue';
 import MessageInput from "@/components/MessageInput.vue";
 import { type Chat, getChat, myself } from "@/services/ChatService.ts";
 import { useRoute } from "vue-router";
-import MessageBubble from "@/views/MessageBubble.vue";
+import MessageBubble from "@/views/authentified/MessageBubble.vue";
 
 const chat = ref({messages: []} as Chat);
 

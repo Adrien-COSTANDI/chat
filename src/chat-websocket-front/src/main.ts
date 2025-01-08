@@ -8,7 +8,6 @@ import Aura from '@primevue/themes/aura'
 import App from './App.vue'
 import router from './router'
 import { definePreset } from '@primevue/themes'
-import { userAuthStore } from "@/stores/userAuth.ts";
 
 
 const app = createApp(App)
@@ -103,13 +102,6 @@ const MyPreset = definePreset(Aura, {
 });
 
 
-router.beforeEach(async (to, from) => {
-  const userStore = userAuthStore();
-  if (!userStore.isAuthenticated() && to.name !== 'Login') {
-    // redirect the user to the login page
-    return {name: 'Login'}
-  }
-})
 
 app.use(PrimeVue, {
   theme: {

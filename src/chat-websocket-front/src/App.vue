@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
-import SplitterPanel from 'primevue/splitterpanel'
-import Splitter from 'primevue/splitter'
-import ChatList from '@/components/ChatList.vue'
-import { chatPreviews } from '@/services/ChatService.ts'
 import { useDarkModeStore } from '@/stores/darkMode'
+import HomePage from '@/views/HomePage.vue'
+import { userAuthStore } from '@/stores/userAuth.ts'
 
 const darkModeStore = useDarkModeStore();
 
@@ -28,14 +26,8 @@ function toggleDarkMode() {
       </Button>
     </header>
     <main>
-      <Splitter :gutter-size="6" state-key="splitter-position" state-storage="local" style="height: 100%">
-        <SplitterPanel class="flex items-center justify-center" :size="20" :minSize="10">
-          <ChatList :chats="chatPreviews"/>
-        </SplitterPanel>
-        <SplitterPanel class="flex items-center justify-center" :size="80" :minSize="50">
-          <RouterView />
-        </SplitterPanel>
-      </Splitter>
+      <HomePage v-if="userAuthStore().isAuthenticated()" />
+      <RouterView v-else />
     </main>
   </div>
 
@@ -57,6 +49,7 @@ header h2 {
 
 main {
   height: calc(100vh - var(--header-size));
+  background-color: var(--p-content-background);
 }
 
 .dark-mode-toggle {
