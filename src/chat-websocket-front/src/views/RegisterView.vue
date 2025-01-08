@@ -80,7 +80,7 @@ const handleRegister = () => {
         <Message class="bottom-text" severity="error" size="small" variant="simple" v-if="repeatPassword !== password">Password must match.</Message>
       </div>
 
-      <Button label="Login" type="submit" />
+      <Button label="Create account" type="submit" />
       <p class="bottom-text">Already have an account? <RouterLink to="/login">Login</RouterLink>!</p>
     </form>
   </main>
