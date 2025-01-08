@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router'
 
 const darkModeStore = useDarkModeStore();
 const router = useRouter()
+const authStore = userAuthStore()
 
 if (darkModeStore.darkMode) {
   document.documentElement.classList.toggle('my-app-dark');
@@ -18,7 +19,7 @@ function toggleDarkMode() {
 }
 
 function logout() {
-  userAuthStore().logout();
+  authStore.logout();
   router.push({name: 'Login'});
 }
 </script>
@@ -30,7 +31,7 @@ function logout() {
       <Button class="dark-mode-toggle" @click="toggleDarkMode()">
         <i :class="{ 'dark-mode': darkModeStore.darkMode, 'light-mode': !darkModeStore.darkMode }" />
       </Button>
-      <Button class="logout-button" @click="logout()">
+      <Button v-if="authStore.isAuthenticated()" class="logout-button" @click="logout()">
         <i :class="{ 'dark-logout': darkModeStore.darkMode, 'light-logout': !darkModeStore.darkMode }" />
       </Button>
     </header>
