@@ -3,8 +3,10 @@ import Button from 'primevue/button'
 import { useDarkModeStore } from '@/stores/darkMode'
 import HomePage from '@/views/HomePage.vue'
 import { userAuthStore } from '@/stores/userAuth.ts'
+import { useRouter } from 'vue-router'
 
 const darkModeStore = useDarkModeStore();
+const router = useRouter()
 
 if (darkModeStore.darkMode) {
   document.documentElement.classList.toggle('my-app-dark');
@@ -15,6 +17,10 @@ function toggleDarkMode() {
   document.documentElement.classList.toggle('my-app-dark');
 }
 
+function logout() {
+  userAuthStore().logout();
+  router.push({name: 'Root'});
+}
 </script>
 
 <template>
@@ -23,6 +29,9 @@ function toggleDarkMode() {
       <h2>Chat</h2>
       <Button class="dark-mode-toggle" @click="toggleDarkMode()">
         <i :class="{ 'dark-mode': darkModeStore.darkMode, 'light-mode': !darkModeStore.darkMode }" />
+      </Button>
+      <Button class="logout-button" @click="logout()">
+        <i :class="{ 'dark-logout': darkModeStore.darkMode, 'light-logout': !darkModeStore.darkMode }" />
       </Button>
     </header>
     <main>
@@ -65,4 +74,10 @@ main {
   content: url('@/assets/smiling-face-with-sunglasses.svg');
 }
 
+.light-logout::after {
+  content: url('@/assets/dark-logout.svg');
+}
+.dark-logout::after {
+  content: url('@/assets/light-logout.svg');
+}
 </style>
