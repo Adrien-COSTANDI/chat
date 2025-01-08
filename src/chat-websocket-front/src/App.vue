@@ -58,11 +58,11 @@ main {
 }
 
 .dark-mode::after {
-  content: url('https://api.iconify.design/emojione/smiling-face.svg');
+  content: url('@/assets/smiling-face.svg');
 }
 
 .light-mode::after {
-  content: url('https://api.iconify.design/emojione/smiling-face-with-sunglasses.svg');
+  content: url('@/assets/smiling-face-with-sunglasses.svg');
 }
 
 </style>
