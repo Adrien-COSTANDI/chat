@@ -8,9 +8,14 @@ import Divider from 'primevue/divider'
 import Message from 'primevue/message'
 
 // Define reactive variables
-const username = ref('')
-const password = ref('')
-const repeatPassword = ref('')
+const username = ref('');
+const password = ref('');
+const repeatPassword = ref('');
+
+const oneLowercase = ref(false);
+const oneUppercase = ref(false);
+const oneNumber = ref(false);
+const minLen = ref(false);
 
 // Handle form submission
 const handleRegister = () => {
@@ -24,6 +29,33 @@ const handleRegister = () => {
     password: password.value,
     repeatPassword: repeatPassword.value,
   }))
+}
+
+function updatePasswordRequirements() {
+  if (password.value.match(/[a-z]+/)) {
+    oneLowercase.value = true;
+  } else {
+    oneLowercase.value = false;
+  }
+  if (password.value.match(/[A-Z]+/)) {
+    oneUppercase.value = true;
+  } else {
+    oneUppercase.value = false;
+  }
+  if (password.value.match(/[0-9]+/)) {
+    oneNumber.value = true;
+  } else {
+    oneNumber.value = false;
+  }
+  if (password.value.match(/.{8,}/)) {
+    minLen.value = true;
+  } else {
+    minLen.value = false;
+  }
+}
+
+function createDisabled() {
+  return !username.value || repeatPassword.value !== password.value || !oneNumber.value || !oneUppercase.value || !oneLowercase.value || !minLen.value
 }
 </script>
 
@@ -50,14 +82,15 @@ const handleRegister = () => {
           required
           toggle-mask
           class="credential"
+          @change="updatePasswordRequirements"
         >
           <template #footer>
             <Divider />
             <ul class="password-requirements">
-              <li>At least one lowercase</li>
-              <li>At least one uppercase</li>
-              <li>At least one numeric</li>
-              <li>Minimum 8 characters</li>
+              <li><i :class="{ 'valid': oneLowercase, 'invalid': !oneLowercase }" /><span>At least one lowercase</span></li>
+              <li><i :class="{ 'valid': oneUppercase, 'invalid': !oneUppercase }" /><span>At least one uppercase</span></li>
+              <li><i :class="{ 'valid': oneNumber, 'invalid': !oneNumber }" /><span>At least one numeric</span></li>
+              <li><i :class="{ 'valid': minLen, 'invalid': !minLen }" /><span>Minimum 8 characters</span></li>
             </ul>
           </template>
         </Password>
@@ -80,7 +113,7 @@ const handleRegister = () => {
         <Message class="bottom-text" severity="error" size="small" variant="simple" v-if="repeatPassword !== password">Password must match.</Message>
       </div>
 
-      <Button label="Create account" type="submit" />
+      <Button :disabled="createDisabled()" label="Create account" type="submit" />
       <p class="bottom-text">Already have an account? <RouterLink to="/login">Login</RouterLink>!</p>
     </form>
   </main>
@@ -108,6 +141,29 @@ form {
 }
 
 .password-requirements {
+  padding-left: 0.5rem;
   font-size: 0.9rem;
+  align-items: center;
+}
+
+.password-requirements li {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.valid::after {
+  content: url('@/assets/valid.svg');
+}
+
+.invalid::after {
+  content: url('@/assets/invalid.svg');
+}
+
+.valid, .invalid {
+  margin-right: 0.5rem;
+  height: 0.9rem;
 }
 </style>
