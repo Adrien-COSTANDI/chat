@@ -96,3 +96,7 @@ chats.set(azerty.name, {
 export function getChat(user: string): Chat {
     return chats.get(user) || {messages: []};
 }
+
+export function getDefaultMessage(user: string): string {
+  return "";
+}

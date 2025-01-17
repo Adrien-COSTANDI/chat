@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from 'vue'
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 
-const newMessage = ref("");
-const emit = defineEmits(['sendMessage'])
+const props = defineProps({
+  defaultMessage: { type: String, default: "" }
+})
+
+const newMessage = ref(props.defaultMessage);
+const emit = defineEmits(['sendMessage']);
+
+watch(props.defaultMessage, (newDefaultMessage: string) => {
+  newMessage.value = newDefaultMessage;
+})
 
 function submit(): void {
   emit("sendMessage", newMessage.value);

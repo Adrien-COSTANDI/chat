@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue';
 import MessageInput from "@/components/MessageInput.vue";
-import { type Chat, getChat, myself } from "@/services/ChatService.ts";
+import { type Chat, getChat, getDefaultMessage, myself } from '@/services/ChatService.ts'
 import { useRoute } from "vue-router";
 import MessageBubble from "@/views/authentified/MessageBubble.vue";
 
 const chat = ref({messages: []} as Chat);
+const defaultMessage = ref("");
 
 const route = useRoute();
+const bottom = useTemplateRef('bottomEl');
 
 watch(
     () => route.params.userName,
-    (newUserName, oldUserName) => {
-      console.log(newUserName);
-      chat.value = getChat(newUserName as string)
-    }
+    newUserName => {
+      chat.value = getChat(newUserName as string);
+      defaultMessage.value = getDefaultMessage(newUserName as string);
+    },
 )
-
-const bottom = useTemplateRef('bottomEl')
 
 function sendMessage(newMessage: string) {
   newMessage = newMessage.trim();
@@ -32,7 +32,7 @@ onUpdated(() => {
 })
 
 onMounted(() => {
-  chat.value = getChat(route.params.userName as string)
+  chat.value = getChat(route.params.userName as string);
   bottom.value?.scrollIntoView({block: "end", inline: "end"});
 })
 </script>
@@ -45,16 +45,16 @@ onMounted(() => {
     <!--        <i :class="{ 'lens-dark': darkModeStore.darkMode, 'lens-light': !darkModeStore.darkMode }" />-->
     <!--      </Button>-->
     <!--    </header>-->
-    <main class="messages">
+    <div class="messages">
       <MessageBubble
           v-for="message in chat.messages"
           :key="message.id"
           :message="message"
       />
       <div ref="bottomEl"></div>
-    </main>
+    </div>
 
-    <MessageInput @sendMessage="sendMessage"/>
+    <MessageInput :defaultMessage="defaultMessage" @sendMessage="sendMessage"/>
   </div>
 </template>
 
