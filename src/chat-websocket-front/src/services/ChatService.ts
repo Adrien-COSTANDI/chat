@@ -7,6 +7,7 @@ export type User = {
 export type ChatPreview = {
     lastMessage: string,
     user: User,
+    timestamp: Date,
 }
 
 export type Message = {
@@ -42,14 +43,17 @@ export const chatPreviews: ChatPreview[] = [
     {
         user: myself,
         lastMessage: 'Preview of the last message',
+        timestamp: new Date(Date.now()),
     },
     {
         user: bibi,
         lastMessage: 'blablou',
+        timestamp: new Date(Date.now()),
     },
     {
         user: azerty,
         lastMessage: "bla bla bla",
+        timestamp: new Date(Date.now()),
     }
 ]
 

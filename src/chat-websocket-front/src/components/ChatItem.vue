@@ -15,7 +15,7 @@ defineProps<{
     <div class="content">
       <div class="header">
         <span class="username">{{ chatPreview.user.name }}</span>
-        <span class="date crop">19/12/2024</span>
+        <span class="date crop">{{ chatPreview.timestamp.toLocaleDateString() }}</span>
       </div>
       <div class="last-message crop">{{ chatPreview.lastMessage }}</div>
     </div>
