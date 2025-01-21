@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue';
+import { onMounted, ref, useTemplateRef, watch } from 'vue';
 import MessageInput from "@/components/MessageInput.vue";
 import { type Chat, getChat, getDraftMessageForUser, myself, setDraftMessageForUser } from '@/services/ChatService.ts'
 import { useRoute } from "vue-router";
@@ -33,9 +33,9 @@ function updateDraft(value: string) {
   draftMessage.value = value;
 }
 
-onUpdated(() => {
+watch(chat, () => {
   bottom.value?.scrollIntoView({block: "end", inline: "end"});
-})
+}, {deep: true, flush: "post"});
 
 onMounted(() => {
   chat.value = getChat(route.params.userName as string);
@@ -104,7 +104,6 @@ header {
 }
 
 .chat-container {
-  padding-top: 16px;
   display: flex;
   flex-direction: column;
   height: 100%;
