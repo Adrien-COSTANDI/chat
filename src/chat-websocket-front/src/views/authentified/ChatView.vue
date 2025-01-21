@@ -35,6 +35,19 @@ onMounted(() => {
   chat.value = getChat(route.params.userName as string);
   bottom.value?.scrollIntoView({block: "end", inline: "end"});
 })
+
+function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
+  if (date2 === undefined) {
+    return true;
+  }
+
+
+  return (
+    date1.getFullYear() !== date2.getFullYear() ||
+    date1.getMonth() !== date2.getMonth() ||
+    date1.getDate() !== date2.getDate()
+  );
+}
 </script>
 
 <template>
@@ -47,9 +60,10 @@ onMounted(() => {
     <!--    </header>-->
     <div class="messages">
       <MessageBubble
-          v-for="message in chat.messages"
+          v-for="(message, index) in chat.messages"
           :key="message.id"
           :message="message"
+          :newDay="shouldTriggerNewDay(message.timestamp, chat.messages[index - 1]?.timestamp)"
       />
       <div ref="bottomEl"></div>
     </div>

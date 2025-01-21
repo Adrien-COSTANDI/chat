@@ -74,25 +74,31 @@ chats.set(azerty.name, {
             id: 1,
             user: myself,
             content: "Salut !",
-            timestamp: new Date(Date.now()),
+            timestamp: new Date(2024, 11, 24, 17, 24, 11, 31),
         },
         {
             id: 2,
             user: azerty,
             content: "Salut !",
-            timestamp: new Date(Date.now()),
+            timestamp: new Date(2024, 11, 24, 17, 26, 18, 6),
         },
         {
             id: 3,
             user: myself,
             content: "Test bla bla bla",
-            timestamp: new Date(Date.now()),
+            timestamp: new Date(new Date(2024, 11, 24, 18, 3, 48, 65)),
         },
         {
             id: 4,
             user: myself,
-            content: "Et encore un test",
-            timestamp: new Date(Date.now()),
+            content: "Et bonne année !",
+            timestamp: new Date(2025, 0, 1, 0, 1, 12, 48),
+        },
+        {
+          id: 5,
+          user: azerty,
+          content: "Bonne année !",
+          timestamp: new Date(Date.now()),
         },
     ]
 });

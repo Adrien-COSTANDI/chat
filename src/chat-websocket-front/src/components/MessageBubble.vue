@@ -2,13 +2,18 @@
 import { type Message, myself } from "@/services/ChatService.ts";
 import icon from '@/assets/logo.svg'
 import Avatar from 'primevue/avatar'
+import Divider from 'primevue/divider'
 
 defineProps<{
-  message: Message
+  message: Message,
+  newDay: boolean,
 }>()
 </script>
 
 <template>
+  <Divider v-if="newDay" align="center" style="margin: 0" >
+    <span class="date">{{message.timestamp.toLocaleDateString()}}</span>
+  </Divider>
   <div
       class="message"
       :class="{ 'self': message.user.id === myself.id, 'other': message.user.id !== myself.id }"
@@ -73,6 +78,11 @@ header {
 
 .message.self .message-bubble {
   background-color: var(--self-chat-color);
+}
+
+.date {
+  font-size: 0.8rem;
+  margin: 0 8px;
 }
 
 </style>
