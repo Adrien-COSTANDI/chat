@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref, useTemplateRef, watch } from 'vue';
 import MessageInput from "@/components/MessageInput.vue";
-import { type Chat, getChat, getDefaultMessage, myself } from '@/services/ChatService.ts'
+import { type Chat, getChat, getDraftMessageForUser, myself, setDraftMessageForUser } from '@/services/ChatService.ts'
 import { useRoute } from "vue-router";
 import MessageBubble from "@/components/MessageBubble.vue";
 
 const chat = ref({messages: []} as Chat);
-const defaultMessage = ref("");
+const draftMessage = ref("");
 
 const route = useRoute();
 const bottom = useTemplateRef('bottomEl');
@@ -15,7 +15,7 @@ watch(
     () => route.params.userName,
     newUserName => {
       chat.value = getChat(newUserName as string);
-      defaultMessage.value = getDefaultMessage(newUserName as string);
+      draftMessage.value = getDraftMessageForUser(newUserName as string);
     },
 )
 
@@ -23,8 +23,14 @@ function sendMessage(newMessage: string) {
   newMessage = newMessage.trim();
   if (newMessage) {
     chat.value.messages.push({id: Date.now(), timestamp: new Date(Date.now()), content: newMessage, user: myself});
+    setDraftMessageForUser(route.params.userName as string, "");
     bottom.value?.scrollIntoView(false);
   }
+}
+
+function updateDraft(value: string) {
+  setDraftMessageForUser(route.params.userName as string, value);
+  draftMessage.value = value;
 }
 
 onUpdated(() => {
@@ -33,6 +39,7 @@ onUpdated(() => {
 
 onMounted(() => {
   chat.value = getChat(route.params.userName as string);
+  draftMessage.value = getDraftMessageForUser(route.params.userName as string);
   bottom.value?.scrollIntoView({block: "end", inline: "end"});
 })
 
@@ -68,7 +75,7 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
       <div ref="bottomEl"></div>
     </div>
 
-    <MessageInput :defaultMessage="defaultMessage" @sendMessage="sendMessage"/>
+    <MessageInput :draft="draftMessage" @sendMessage="sendMessage" @onValueChange="value => updateDraft(value)"/>
   </div>
 </template>
 

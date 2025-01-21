@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, toRef, watch } from 'vue'
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 
 const props = defineProps({
-  defaultMessage: { type: String, default: "" }
+  draft: { type: String, default: "" }
 })
+const myPropRef = toRef(props, "draft");
 
-const newMessage = ref(props.defaultMessage);
-const emit = defineEmits(['sendMessage']);
+const newMessage = ref(props.draft);
+const emit = defineEmits(['sendMessage', 'onValueChange']);
 
-watch(props.defaultMessage, (newDefaultMessage: string) => {
+watch(myPropRef, (newDefaultMessage: string) => {
   newMessage.value = newDefaultMessage;
 })
 
@@ -19,11 +20,15 @@ function submit(): void {
   newMessage.value = "";
 }
 
+function onValueChange(): void {
+  emit("onValueChange", newMessage.value);
+}
+
 </script>
 
 <template>
   <form  @submit.prevent="submit" class="message-prompt">
-    <InputText autofocus v-model="newMessage" placeholder="Type a message..." class="message-input"/>
+    <InputText autofocus @valueChange="onValueChange()" v-model="newMessage" placeholder="Type a message..." class="message-input"/>
     <Button @click="submit" label="Send" class="send-button"/>
   </form>
 </template>

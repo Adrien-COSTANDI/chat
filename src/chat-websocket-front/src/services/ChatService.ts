@@ -58,6 +58,7 @@ export const chatPreviews: ChatPreview[] = [
 ]
 
 const chats = new Map<string, Chat>();
+chats.set(myself.name, {messages: []});
 chats.set(bibi.name, {
     messages: [
         {
@@ -107,6 +108,17 @@ export function getChat(user: string): Chat {
     return chats.get(user) || {messages: []};
 }
 
-export function getDefaultMessage(user: string): string {
-  return "";
+const drafts = new Map<string, string>();
+drafts.set(myself.name, "");
+drafts.set(bibi.name, "");
+drafts.set(azerty.name, "");
+
+export function getDraftMessageForUser(user: string): string {
+  return drafts.get(user) || "";
+}
+
+export function setDraftMessageForUser(user: string, newDraft: string): void {
+  if (drafts.has(user)) {
+    drafts.set(user, newDraft || "");
+  }
 }
