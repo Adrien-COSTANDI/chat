@@ -16,6 +16,11 @@ defineProps<{
 
 <style scoped>
 
+.content {
+  word-wrap: anywhere;
+  overflow-wrap: anywhere;
+}
+
 .message-bubble {
   padding: 7px 15px;
   border-radius: 15px;
