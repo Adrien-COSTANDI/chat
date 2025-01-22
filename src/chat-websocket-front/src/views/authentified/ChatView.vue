@@ -67,6 +67,7 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
           flex-direction: column;
           gap: 10px;
           padding-bottom: 0;
+          height: 100%;
           `,
       }
     }" :dt="{
