@@ -40,7 +40,6 @@ header {
 
 .message {
   display: flex;
-  max-width: 100%;
   align-items: start;
   margin: 0 10px;
 }

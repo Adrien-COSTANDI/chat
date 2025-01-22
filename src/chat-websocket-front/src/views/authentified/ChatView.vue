@@ -4,6 +4,7 @@ import MessageInput from "@/components/MessageInput.vue";
 import { type Chat, getChat, getDraftMessageForUser, myself, setDraftMessageForUser } from '@/services/ChatService.ts'
 import { useRoute } from "vue-router";
 import MessageBubble from "@/components/MessageBubble.vue";
+import ScrollPanel from 'primevue/scrollpanel'
 
 const chat = ref({messages: []} as Chat);
 const draftMessage = ref("");
@@ -59,13 +60,20 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
 
 <template>
   <div class="chat-container">
-    <!--    <header>-->
-    <!--      <p class="chat-name">{{ $route.params.userName }}</p>-->
-    <!--      <Button rounded variant="text" raised size="small">-->
-    <!--        <i :class="{ 'lens-dark': darkModeStore.darkMode, 'lens-light': !darkModeStore.darkMode }" />-->
-    <!--      </Button>-->
-    <!--    </header>-->
-    <div class="messages">
+    <ScrollPanel style="flex-grow: 1; overflow: hidden" :pt="{
+      content: {
+        style: `
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding-bottom: 0;
+          `,
+      }
+    }" :dt="{
+      bar: {
+        background: 'var(--scrollbar-color)'
+      }
+    }">
       <MessageBubble
           v-for="(message, index) in chat.messages"
           :key="message.id"
@@ -73,7 +81,7 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
           :newDay="shouldTriggerNewDay(message.timestamp, chat.messages[index - 1]?.timestamp)"
       />
       <div ref="bottomEl"></div>
-    </div>
+    </ScrollPanel>
 
     <MessageInput :draft="draftMessage" @sendMessage="sendMessage" @onValueChange="value => updateDraft(value)"/>
   </div>
@@ -111,7 +119,6 @@ header {
 
 .messages {
   flex-grow: 1;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
