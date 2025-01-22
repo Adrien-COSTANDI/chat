@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, toRef, watch } from 'vue'
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
+import { type ComponentPublicInstance, onMounted, onUpdated, ref, toRef, useTemplateRef, watch } from 'vue'
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
 
 const props = defineProps({
   draft: { type: String, default: "" }
@@ -10,6 +10,9 @@ const myPropRef = toRef(props, "draft");
 
 const newMessage = ref(props.draft);
 const emit = defineEmits(['sendMessage', 'onValueChange']);
+
+const inputRef = useTemplateRef<ComponentPublicInstance>("input");
+inputRef.value?.$el?.focus()
 
 watch(myPropRef, (newDefaultMessage: string) => {
   newMessage.value = newDefaultMessage;
@@ -20,6 +23,11 @@ function submit(): void {
   newMessage.value = "";
 }
 
+function test(): void {
+  inputRef.value?.$el?.focus()
+  console.log(inputRef.value)
+}
+
 function onValueChange(): void {
   emit("onValueChange", newMessage.value);
 }
@@ -28,8 +36,9 @@ function onValueChange(): void {
 
 <template>
   <form  @submit.prevent="submit" class="message-prompt">
-    <InputText autofocus @valueChange="onValueChange()" v-model="newMessage" placeholder="Type a message..." class="message-input"/>
+    <InputText ref="input" autofocus @valueChange="onValueChange()" v-model="newMessage" placeholder="Type a message..." class="message-input"/>
     <Button @click="submit" label="Send" class="send-button"/>
+    <Button @click="test" label="test" class="send-button"/>
   </form>
 </template>
 
