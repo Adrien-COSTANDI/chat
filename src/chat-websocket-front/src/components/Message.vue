@@ -39,6 +39,7 @@ defineProps<{
   margin-top: 4px;
   border-radius: 50%;
   border: solid 1px var(--avatar-border-color);
+  flex-shrink: 0;
 }
 
 .message.self {
