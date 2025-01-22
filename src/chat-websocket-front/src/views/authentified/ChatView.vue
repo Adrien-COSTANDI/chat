@@ -10,7 +10,7 @@ const chat = ref({messages: []} as Chat);
 const draftMessage = ref("");
 
 const route = useRoute();
-const bottom = useTemplateRef('bottomEl');
+const bottom = useTemplateRef<Element>('bottomEl');
 
 watch(
     () => route.params.userName,
