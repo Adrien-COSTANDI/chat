@@ -3,7 +3,7 @@ import { onMounted, ref, useTemplateRef, watch } from 'vue';
 import MessageInput from "@/components/MessageInput.vue";
 import { type Chat, getChat, getDraftMessageForUser, myself, setDraftMessageForUser } from '@/services/ChatService.ts'
 import { useRoute } from "vue-router";
-import MessageBubble from "@/components/MessageBubble.vue";
+import MessageBubble from "@/components/Message.vue";
 import ScrollPanel from 'primevue/scrollpanel'
 
 const chat = ref({messages: []} as Chat);
