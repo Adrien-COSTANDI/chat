@@ -39,6 +39,19 @@ const azerty: User = {
     id: 3
 }
 
+const users = new Map<string, User>([[myself.name, myself], [bibi.name, bibi], [azerty.name, azerty]]);
+export function getUsers(): User[] {
+  return Array.from(users.values());
+}
+export function getUserByName(username: string): User {
+  return users.get(username)!;
+}
+
+export function usernameExists(username: string): boolean {
+  return Array.from(users.keys())
+    .includes(username);
+}
+
 export const chatPreviews: ChatPreview[] = [
     {
         user: myself,
