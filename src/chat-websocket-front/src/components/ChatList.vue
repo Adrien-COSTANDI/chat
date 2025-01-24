@@ -2,13 +2,13 @@
 
 import ChatItem from '@/components/ChatItem.vue'
 import Divider from 'primevue/divider'
-import Button from 'primevue/button';
+import Button from 'primevue/button'
 
 import ScrollPanel from 'primevue/scrollpanel'
-import type { ChatPreview } from '@/services/ChatService.ts'
+import type { ChatPreview, User } from '@/services/ChatService.ts'
 
 defineProps<{
-  chats: ChatPreview[]
+  chats: Map<User, ChatPreview>
 }>()
 </script>
 
@@ -18,10 +18,10 @@ defineProps<{
       background: 'var(--scrollbar-color)'
     }
   }">
-    <Button as="router-link" unstyled class="buttonLink" :to="chat.user.name" v-for="(chat, index) in chats"
-            :key="chat.user.name">
-      <ChatItem class="buttonLink" :class="$route.params.userName === chat.user.name ? 'selected' : ''"
-                :chatPreview="chat"/>
+    <Button as="router-link" unstyled class="buttonLink" :to="userChatPair[0].name" v-for="(userChatPair, index) in chats"
+            :key="userChatPair[0].name">
+      <ChatItem class="buttonLink" :class="$route.params.userName === userChatPair[0].name ? 'selected' : ''"
+                :userChatPair="userChatPair"/>
       <Divider style="margin: 0"/>
     </Button>
 

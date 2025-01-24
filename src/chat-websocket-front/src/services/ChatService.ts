@@ -6,7 +6,6 @@ export type User = {
 
 export type ChatPreview = {
     lastMessage: string,
-    user: User,
     timestamp: Date,
 }
 
@@ -26,13 +25,11 @@ export const myself: User = {
     avatar: "avatar",
     id: 1
 }
-
 const bibi: User = {
     name: "bibi",
     avatar: "avatar",
     id: 2
 }
-
 const azerty: User = {
     name: "azerty",
     avatar: "avatar",
@@ -52,37 +49,30 @@ export function usernameExists(username: string): boolean {
     .includes(username);
 }
 
-export const chatPreviews: ChatPreview[] = [
-    {
-        user: myself,
-        lastMessage: 'Preview of the last message',
-        timestamp: new Date(Date.now()),
-    },
-    {
-        user: bibi,
-        lastMessage: 'blablou',
-        timestamp: new Date(Date.now()),
-    },
-    {
-        user: azerty,
-        lastMessage: "bla bla bla",
-        timestamp: new Date(Date.now()),
-    }
-]
+export function getChatPreviews(): Map<User, ChatPreview> {
+  return new Map(Array.from(chats.entries())
+    .map<[User, ChatPreview]>(entry => ([
+      entry[0],
+      {
+        lastMessage: entry[1].messages[entry[1].messages.length - 1]?.content,
+        timestamp: entry[1].messages[entry[1].messages.length - 1]?.timestamp || new Date()
+      }
+    ])))
+}
 
-const chats = new Map<string, Chat>();
-chats.set(myself.name, {messages: []});
-chats.set(bibi.name, {
+const chats = new Map<User, Chat>();
+chats.set(myself, {messages: []});
+chats.set(bibi, {
     messages: [
         {
             id: 1,
             user: myself,
             content: "Salut !",
-            timestamp: new Date(Date.now()),
+            timestamp: new Date(2025, 0, 12, 17, 24, 11, 31),
         },
     ]
 });
-chats.set(azerty.name, {
+chats.set(azerty, {
     messages: [
         {
             id: 1,
@@ -117,7 +107,7 @@ chats.set(azerty.name, {
     ]
 });
 
-export function getChat(user: string): Chat {
+export function getChat(user: User): Chat {
     return chats.get(user) || {messages: []};
 }
 
@@ -126,12 +116,12 @@ drafts.set(myself.name, "");
 drafts.set(bibi.name, "");
 drafts.set(azerty.name, "");
 
-export function getDraftMessageForUser(user: string): string {
-  return drafts.get(user) || "";
+export function getDraftMessageForUser(user: User): string {
+  return drafts.get(user.name) || "";
 }
 
-export function setDraftMessageForUser(user: string, newDraft: string): void {
-  if (drafts.has(user)) {
-    drafts.set(user, newDraft || "");
+export function setDraftMessageForUser(user: User, newDraft: string): void {
+  if (drafts.has(user.name)) {
+    drafts.set(user.name, newDraft || "");
   }
 }

@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef, watch } from 'vue';
-import MessageInput from "@/components/MessageInput.vue";
-import { type Chat, getChat, getDraftMessageForUser, myself, setDraftMessageForUser } from '@/services/ChatService.ts'
-import { useRoute } from "vue-router";
-import MessageBubble from "@/components/Message.vue";
+import { onMounted, ref, useTemplateRef, watch } from 'vue'
+import MessageInput from '@/components/MessageInput.vue'
+import {
+  type Chat,
+  getChat,
+  getDraftMessageForUser,
+  getUserByName,
+  myself,
+  setDraftMessageForUser
+} from '@/services/ChatService.ts'
+import { useRoute } from 'vue-router'
+import MessageBubble from '@/components/Message.vue'
 import ScrollPanel from 'primevue/scrollpanel'
+import { useAppStateStore } from '@/stores/useAppStateStore.ts'
 
 const chat = ref({messages: []} as Chat);
 const draftMessage = ref("");
@@ -12,11 +20,14 @@ const draftMessage = ref("");
 const route = useRoute();
 const bottom = useTemplateRef<Element>('bottomEl');
 
+const appStateStore = useAppStateStore();
+
+// TODO : refacto appState selectedUser
 watch(
     () => route.params.userName,
     newUserName => {
-      chat.value = getChat(newUserName as string);
-      draftMessage.value = getDraftMessageForUser(newUserName as string);
+      chat.value = getChat(getUserByName(newUserName as string));
+      draftMessage.value = getDraftMessageForUser(getUserByName(newUserName as string));
     },
 )
 
@@ -24,13 +35,13 @@ function sendMessage(newMessage: string) {
   newMessage = newMessage.trim();
   if (newMessage) {
     chat.value.messages.push({id: Date.now(), timestamp: new Date(Date.now()), content: newMessage, user: myself});
-    setDraftMessageForUser(route.params.userName as string, "");
+    setDraftMessageForUser(appStateStore.getSelectedUser(), "");
     bottom.value?.scrollIntoView(false);
   }
 }
 
 function updateDraft(value: string) {
-  setDraftMessageForUser(route.params.userName as string, value);
+  setDraftMessageForUser(appStateStore.getSelectedUser(), value);
   draftMessage.value = value;
 }
 
@@ -39,8 +50,8 @@ watch(chat, () => {
 }, {deep: true, flush: "post"});
 
 onMounted(() => {
-  chat.value = getChat(route.params.userName as string);
-  draftMessage.value = getDraftMessageForUser(route.params.userName as string);
+  chat.value = getChat(getUserByName(route.params.userName as string));
+  draftMessage.value = getDraftMessageForUser(getUserByName(route.params.userName as string));
   bottom.value?.scrollIntoView({block: "end", inline: "end"});
 })
 
@@ -48,7 +59,6 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
   if (date2 === undefined) {
     return true;
   }
-
 
   return (
     date1.getFullYear() !== date2.getFullYear() ||
@@ -116,13 +126,6 @@ header {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-.messages {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 </style>

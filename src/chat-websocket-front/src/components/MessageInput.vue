@@ -2,9 +2,9 @@
 import { type ComponentPublicInstance, onMounted, ref, toRef, useTemplateRef, watch } from 'vue'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
-import { appStateStore } from '@/stores/appStateStore.ts'
+import { useAppStateStore } from '@/stores/useAppStateStore.ts'
 
-const appState = appStateStore();
+const appState = useAppStateStore();
 
 const props = defineProps({
   draft: { type: String, default: "" }
