@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
 import { useDarkModeStore } from '@/stores/darkMode'
-import HomePage from '@/views/HomePage.vue'
+import HomePage from '@/views/authentified/HomePage.vue'
 import { userAuthStore } from '@/stores/userAuth.ts'
 import { useRouter } from 'vue-router'
 
