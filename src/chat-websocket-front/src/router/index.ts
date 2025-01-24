@@ -4,7 +4,7 @@ import DefaultView from '@/views/authentified/DefaultView.vue'
 import LoginView from '@/views/LoginView.vue'
 import { userAuthStore } from '@/stores/userAuth.ts'
 import RegisterView from '@/views/RegisterView.vue'
-import { getUserByName, usernameExists } from '@/services/ChatService.ts'
+import { getUserById, userExists } from '@/services/ChatService.ts'
 import { useAppStateStore } from '@/stores/useAppStateStore.ts'
 
 const router = createRouter({
@@ -16,7 +16,7 @@ const router = createRouter({
       name: 'Root'
     },
     {
-      path: '/:userName',
+      path: '/:userId',
       component: ChatView
     },
     {
@@ -44,12 +44,9 @@ router.beforeEach((to, from) => {
     return {name: 'Root'}
   }
 
-  if (usernameExists(to.params.userName as string)) {
-    console.warn("new user selected")
-    appState.setSelectedUser(getUserByName(to.params.userName as string));
+  if (userExists(to.params.userId as string)) {
+    appState.setSelectedUser(getUserById(to.params.userId as string));
   } else {
-    console.error("bad user selected")
-
     if (to.name !== 'Root') {
       console.error("TODO REDIRECT ERROR PAGE"); // TODO
     }

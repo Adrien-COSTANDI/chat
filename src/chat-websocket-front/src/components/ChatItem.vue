@@ -2,10 +2,10 @@
 import Avatar from 'primevue/avatar'
 import icon from '@/assets/logo.svg'
 
-import type { ChatPreview, User } from '@/services/ChatService.ts'
+import type { ChatPreview } from '@/services/ChatService.ts'
 
 defineProps<{
-  userChatPair: [User, ChatPreview]
+  chatPreview: ChatPreview
 }>()
 </script>
 
@@ -14,10 +14,10 @@ defineProps<{
     <Avatar :image="icon" class="avatar" shape="circle" />
     <div class="content">
       <div class="header">
-        <span class="username">{{ userChatPair[0].name }}</span>
-        <span class="date crop">{{ userChatPair[1].timestamp.toLocaleDateString() }}</span>
+        <span class="username">{{ chatPreview.user.name }}</span>
+        <span class="date crop">{{ chatPreview.timestamp.toLocaleDateString() }}</span>
       </div>
-      <div class="last-message crop">{{ userChatPair[1].lastMessage }}</div>
+      <div class="last-message crop">{{ chatPreview.lastMessage }}</div>
     </div>
   </div>
 </template>

@@ -1,12 +1,15 @@
+export type Id = string;
+
 export type User = {
-    id: number;
-    name: string;
-    avatar: string;
+  id: Id;
+  name: string;
+  avatar: string;
 }
 
 export type ChatPreview = {
-    lastMessage: string,
-    timestamp: Date,
+  lastMessage: string,
+  timestamp: Date,
+  user: User,
 }
 
 export type Message = {
@@ -17,52 +20,52 @@ export type Message = {
 }
 
 export type Chat = {
-    messages: Message[],
+  messages: Message[],
 }
 
 export const myself: User = {
     name: "myself",
     avatar: "avatar",
-    id: 1
+    id: "1"
 }
 const bibi: User = {
     name: "bibi",
     avatar: "avatar",
-    id: 2
+    id: "2"
 }
 const azerty: User = {
     name: "azerty",
     avatar: "avatar",
-    id: 3
+    id: "3"
 }
 
-const users = new Map<string, User>([[myself.name, myself], [bibi.name, bibi], [azerty.name, azerty]]);
+const users = new Map<Id, User>([[myself.id, myself], [bibi.id, bibi], [azerty.id, azerty]]);
 export function getUsers(): User[] {
   return Array.from(users.values());
 }
-export function getUserByName(username: string): User {
-  return users.get(username)!;
+export function getUserById(userId: Id): User {
+  return users.get(userId)!;
 }
 
-export function usernameExists(username: string): boolean {
-  return Array.from(users.keys())
-    .includes(username);
+export function userExists(userId: Id): boolean {
+  return users.has(userId);
 }
 
-export function getChatPreviews(): Map<User, ChatPreview> {
+export function getChatPreviews(): Map<Id, ChatPreview> {
   return new Map(Array.from(chats.entries())
-    .map<[User, ChatPreview]>(entry => ([
+    .map<[Id, ChatPreview]>(entry => ([
       entry[0],
       {
         lastMessage: entry[1].messages[entry[1].messages.length - 1]?.content,
-        timestamp: entry[1].messages[entry[1].messages.length - 1]?.timestamp || new Date()
+        timestamp: entry[1].messages[entry[1].messages.length - 1]?.timestamp || new Date(),
+        user: getUserById(entry[0])
       }
     ])))
 }
 
-const chats = new Map<User, Chat>();
-chats.set(myself, {messages: []});
-chats.set(bibi, {
+const chats = new Map<Id, Chat>();
+chats.set(myself.id, {messages: []});
+chats.set(bibi.id, {
     messages: [
         {
             id: 1,
@@ -72,7 +75,7 @@ chats.set(bibi, {
         },
     ]
 });
-chats.set(azerty, {
+chats.set(azerty.id, {
     messages: [
         {
             id: 1,
@@ -107,21 +110,21 @@ chats.set(azerty, {
     ]
 });
 
-export function getChat(user: User): Chat {
-    return chats.get(user) || {messages: []};
+export function getChat(userId: Id): Chat {
+    return chats.get(userId) || {messages: []};
 }
 
-const drafts = new Map<string, string>();
-drafts.set(myself.name, "");
-drafts.set(bibi.name, "");
-drafts.set(azerty.name, "");
+const drafts = new Map<Id, string>();
+drafts.set(myself.id, "");
+drafts.set(bibi.id, "");
+drafts.set(azerty.id, "");
 
-export function getDraftMessageForUser(user: User): string {
-  return drafts.get(user.name) || "";
+export function getDraftMessageForUser(userId: Id): string {
+  return drafts.get(userId) || "";
 }
 
-export function setDraftMessageForUser(user: User, newDraft: string): void {
-  if (drafts.has(user.name)) {
-    drafts.set(user.name, newDraft || "");
+export function setDraftMessageForUser(userId: Id, newDraft: string): void {
+  if (drafts.has(userId)) {
+    drafts.set(userId, newDraft || "");
   }
 }

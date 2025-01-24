@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef, watch } from 'vue'
 import MessageInput from '@/components/MessageInput.vue'
-import {
-  type Chat,
-  getChat,
-  getDraftMessageForUser,
-  getUserByName,
-  myself,
-  setDraftMessageForUser
-} from '@/services/ChatService.ts'
+import { type Chat, getChat, getDraftMessageForUser, myself, setDraftMessageForUser } from '@/services/ChatService.ts'
 import { useRoute } from 'vue-router'
 import MessageBubble from '@/components/Message.vue'
 import ScrollPanel from 'primevue/scrollpanel'
@@ -24,10 +17,10 @@ const appStateStore = useAppStateStore();
 
 // TODO : refacto appState selectedUser
 watch(
-    () => route.params.userName,
-    newUserName => {
-      chat.value = getChat(getUserByName(newUserName as string));
-      draftMessage.value = getDraftMessageForUser(getUserByName(newUserName as string));
+    appStateStore.getSelectedUser,
+    newUser => {
+      chat.value = getChat(newUser.id);
+      draftMessage.value = getDraftMessageForUser(newUser.id);
     },
 )
 
@@ -35,13 +28,13 @@ function sendMessage(newMessage: string) {
   newMessage = newMessage.trim();
   if (newMessage) {
     chat.value.messages.push({id: Date.now(), timestamp: new Date(Date.now()), content: newMessage, user: myself});
-    setDraftMessageForUser(appStateStore.getSelectedUser(), "");
+    setDraftMessageForUser(appStateStore.getSelectedUser().id, "");
     bottom.value?.scrollIntoView(false);
   }
 }
 
 function updateDraft(value: string) {
-  setDraftMessageForUser(appStateStore.getSelectedUser(), value);
+  setDraftMessageForUser(appStateStore.getSelectedUser().id, value);
   draftMessage.value = value;
 }
 
@@ -50,8 +43,8 @@ watch(chat, () => {
 }, {deep: true, flush: "post"});
 
 onMounted(() => {
-  chat.value = getChat(getUserByName(route.params.userName as string));
-  draftMessage.value = getDraftMessageForUser(getUserByName(route.params.userName as string));
+  chat.value = getChat(appStateStore.getSelectedUser().id);
+  draftMessage.value = getDraftMessageForUser(appStateStore.getSelectedUser().id);
   bottom.value?.scrollIntoView({block: "end", inline: "end"});
 })
 
