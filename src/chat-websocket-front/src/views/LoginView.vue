@@ -6,9 +6,8 @@ import Checkbox from 'primevue/checkbox'
 import Button from 'primevue/button'
 import FloatLabel from 'primevue/floatlabel'
 import { userAuthStore } from '@/stores/userAuth.ts'
-import Message from 'primevue/message';
+import Message from 'primevue/message'
 import { useRouter } from 'vue-router'
-
 
 // Define reactive variables
 const username = ref('')
@@ -19,19 +18,18 @@ const router = useRouter()
 
 // Handle form submission
 const handleLogin = () => {
-  if (username.value === "a" && password.value === "a") {
+  if (username.value === 'a' && password.value === 'a') {
     userAuthStore().login({
       id: 0,
-      name: "Adrien",
-      avatar: "AvatarAdrien",
+      name: 'Adrien',
+      avatar: 'AvatarAdrien',
     })
-    router.push({name: 'Root'});
+    router.push({ name: 'Root' })
   } else {
-    badLogin.value = true;
+    badLogin.value = true
   }
 }
 </script>
-
 
 <template>
   <main>
@@ -65,25 +63,23 @@ const handleLogin = () => {
 
       <!-- Remember Me Checkbox -->
       <div class="form-group remember-me">
-        <Checkbox
-          v-model="rememberMe"
-          inputId="rememberMe"
-          :binary="true"
-          label="Remember me"
-        />
+        <Checkbox v-model="rememberMe" inputId="rememberMe" :binary="true" label="Remember me" />
         <label for="rememberMe" class="ml-2">Remember me</label>
       </div>
 
       <!-- Submit Button -->
       <Button label="Login" type="submit" />
-      <Message class="bottom-text" severity="error" size="small" variant="simple" v-if="badLogin">Login or password incorrect.</Message>
-      <p class="bottom-text">Don't have an account? <RouterLink :to="{name: 'Register'}">Create one</RouterLink>!</p>
+      <Message class="bottom-text" severity="error" size="small" variant="simple" v-if="badLogin"
+        >Login or password incorrect.</Message
+      >
+      <p class="bottom-text">
+        Don't have an account? <RouterLink :to="{ name: 'Register' }">Create one</RouterLink>!
+      </p>
     </form>
   </main>
 </template>
 
 <style scoped>
-
 form {
   height: 100%;
   text-align: center;
@@ -113,5 +109,4 @@ form {
 .remember-me label {
   padding-left: 8px;
 }
-
 </style>

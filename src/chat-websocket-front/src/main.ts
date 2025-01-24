@@ -9,9 +9,8 @@ import App from './App.vue'
 import router from './router'
 import { definePreset } from '@primevue/themes'
 
-
 const app = createApp(App)
-const pinia = createPinia();
+const pinia = createPinia()
 const MyPreset = definePreset(Aura, {
   semantic: {
     primary: {
@@ -25,7 +24,7 @@ const MyPreset = definePreset(Aura, {
       700: '{teal.700}',
       800: '{teal.800}',
       900: '{teal.900}',
-      950: '{teal.950}'
+      950: '{teal.950}',
     },
     secondary: {
       50: '{stone.50}',
@@ -38,7 +37,7 @@ const MyPreset = definePreset(Aura, {
       700: '{stone.700}',
       800: '{stone.800}',
       900: '{stone.900}',
-      950: '{stone.950}'
+      950: '{stone.950}',
     },
     colorScheme: {
       light: {
@@ -66,7 +65,7 @@ const MyPreset = definePreset(Aura, {
           700: '{slate.700}',
           800: '{slate.800}',
           900: '{slate.900}',
-          950: '{slate.950}'
+          950: '{slate.950}',
         },
       },
       dark: {
@@ -94,14 +93,12 @@ const MyPreset = definePreset(Aura, {
           700: '{slate.700}',
           800: '{slate.800}',
           900: '{slate.900}',
-          950: '{slate.950}'
+          950: '{slate.950}',
         },
-      }
-    }
+      },
+    },
   },
-});
-
-
+})
 
 app.use(PrimeVue, {
   theme: {

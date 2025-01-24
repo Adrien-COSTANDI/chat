@@ -4,30 +4,28 @@ import icon from '@/assets/logo.svg'
 import Avatar from 'primevue/avatar'
 import Divider from 'primevue/divider'
 import MessageBubble from '@/components/MessageBubble.vue'
-import Tag from 'primevue/tag';
+import Tag from 'primevue/tag'
 
 defineProps<{
-  message: Message,
-  newDay: boolean,
+  message: Message
+  newDay: boolean
 }>()
 </script>
 
 <template>
-  <Divider v-if="newDay" align="center" style="margin: 0" >
+  <Divider v-if="newDay" align="center" style="margin: 0">
     <Tag rounded :value="message.timestamp.toLocaleDateString()" />
   </Divider>
   <div
-      class="message"
-      :class="{ 'self': message.user.id === myself.id, 'other': message.user.id !== myself.id }"
+    class="message"
+    :class="{ self: message.user.id === myself.id, other: message.user.id !== myself.id }"
   >
-    <Avatar :image="icon" class="avatar" shape="circle"/>
+    <Avatar :image="icon" class="avatar" shape="circle" />
     <MessageBubble :message="message" />
   </div>
 </template>
 
-
 <style scoped>
-
 .message {
   display: flex;
   align-items: start;
@@ -45,5 +43,4 @@ defineProps<{
 .message.self {
   flex-direction: row-reverse;
 }
-
 </style>

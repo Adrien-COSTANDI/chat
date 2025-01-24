@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
 import type { Message } from '@/services/ChatService.ts'
 
 defineProps<{
-  message: Message,
+  message: Message
 }>()
 </script>
 
@@ -15,7 +14,6 @@ defineProps<{
 </template>
 
 <style scoped>
-
 .content {
   word-wrap: anywhere;
   overflow-wrap: anywhere;
@@ -34,7 +32,8 @@ defineProps<{
   background-color: var(--self-chat-color);
 }
 
-.message-bubble:hover, .message.self .message-bubble:hover {
+.message-bubble:hover,
+.message.self .message-bubble:hover {
   box-shadow: 3px 3px 10px var(--p-hover-background-color);
 }
 
@@ -43,5 +42,4 @@ defineProps<{
   text-align: end;
   font-style: italic;
 }
-
 </style>

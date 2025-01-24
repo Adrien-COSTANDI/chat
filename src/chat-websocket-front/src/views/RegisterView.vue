@@ -8,14 +8,14 @@ import Divider from 'primevue/divider'
 import Message from 'primevue/message'
 
 // Define reactive variables
-const username = ref('');
-const password = ref('');
-const repeatPassword = ref('');
+const username = ref('')
+const password = ref('')
+const repeatPassword = ref('')
 
-const oneLowercase = ref(false);
-const oneUppercase = ref(false);
-const oneNumber = ref(false);
-const minLen = ref(false);
+const oneLowercase = ref(false)
+const oneUppercase = ref(false)
+const oneNumber = ref(false)
+const minLen = ref(false)
 
 // Handle form submission
 const handleRegister = () => {
@@ -24,38 +24,47 @@ const handleRegister = () => {
     password: password.value,
     repeatPassword: repeatPassword.value,
   })
-  alert(JSON.stringify({
-    username: username.value,
-    password: password.value,
-    repeatPassword: repeatPassword.value,
-  }))
+  alert(
+    JSON.stringify({
+      username: username.value,
+      password: password.value,
+      repeatPassword: repeatPassword.value,
+    }),
+  )
 }
 
 function updatePasswordRequirements() {
   if (password.value.match(/[a-z]+/)) {
-    oneLowercase.value = true;
+    oneLowercase.value = true
   } else {
-    oneLowercase.value = false;
+    oneLowercase.value = false
   }
   if (password.value.match(/[A-Z]+/)) {
-    oneUppercase.value = true;
+    oneUppercase.value = true
   } else {
-    oneUppercase.value = false;
+    oneUppercase.value = false
   }
   if (password.value.match(/[0-9]+/)) {
-    oneNumber.value = true;
+    oneNumber.value = true
   } else {
-    oneNumber.value = false;
+    oneNumber.value = false
   }
   if (password.value.match(/.{8,}/)) {
-    minLen.value = true;
+    minLen.value = true
   } else {
-    minLen.value = false;
+    minLen.value = false
   }
 }
 
 function createDisabled() {
-  return !username.value || repeatPassword.value !== password.value || !oneNumber.value || !oneUppercase.value || !oneLowercase.value || !minLen.value
+  return (
+    !username.value ||
+    repeatPassword.value !== password.value ||
+    !oneNumber.value ||
+    !oneUppercase.value ||
+    !oneLowercase.value ||
+    !minLen.value
+  )
 }
 </script>
 
@@ -65,12 +74,7 @@ function createDisabled() {
       <h1>Register</h1>
 
       <FloatLabel class="form-group" variant="on">
-        <InputText
-          v-model="username"
-          inputId="username"
-          class="credential"
-          required
-        />
+        <InputText v-model="username" inputId="username" class="credential" required />
         <label for="username">Username</label>
       </FloatLabel>
 
@@ -87,10 +91,24 @@ function createDisabled() {
           <template #footer>
             <Divider />
             <ul class="password-requirements">
-              <li><i :class="{ 'valid': oneLowercase, 'invalid': !oneLowercase }" /><span>At least one lowercase</span></li>
-              <li><i :class="{ 'valid': oneUppercase, 'invalid': !oneUppercase }" /><span>At least one uppercase</span></li>
-              <li><i :class="{ 'valid': oneNumber, 'invalid': !oneNumber }" /><span>At least one numeric</span></li>
-              <li><i :class="{ 'valid': minLen, 'invalid': !minLen }" /><span>Minimum 8 characters</span></li>
+              <li>
+                <i :class="{ valid: oneLowercase, invalid: !oneLowercase }" /><span
+                  >At least one lowercase</span
+                >
+              </li>
+              <li>
+                <i :class="{ valid: oneUppercase, invalid: !oneUppercase }" /><span
+                  >At least one uppercase</span
+                >
+              </li>
+              <li>
+                <i :class="{ valid: oneNumber, invalid: !oneNumber }" /><span
+                  >At least one numeric</span
+                >
+              </li>
+              <li>
+                <i :class="{ valid: minLen, invalid: !minLen }" /><span>Minimum 8 characters</span>
+              </li>
             </ul>
           </template>
         </Password>
@@ -110,17 +128,25 @@ function createDisabled() {
           />
           <label for="repeat-password">Repeat password</label>
         </FloatLabel>
-        <Message class="bottom-text" severity="error" size="small" variant="simple" v-if="repeatPassword !== password">Password must match.</Message>
+        <Message
+          class="bottom-text"
+          severity="error"
+          size="small"
+          variant="simple"
+          v-if="repeatPassword !== password"
+          >Password must match.</Message
+        >
       </div>
 
       <Button :disabled="createDisabled()" label="Create account" type="submit" />
-      <p class="bottom-text">Already have an account? <RouterLink to="/login">Login</RouterLink>!</p>
+      <p class="bottom-text">
+        Already have an account? <RouterLink to="/login">Login</RouterLink>!
+      </p>
     </form>
   </main>
 </template>
 
 <style scoped>
-
 form {
   height: 100%;
   text-align: center;
@@ -162,7 +188,8 @@ form {
   content: url('@/assets/invalid.svg');
 }
 
-.valid, .invalid {
+.valid,
+.invalid {
   margin-right: 0.5rem;
   height: 0.9rem;
 }

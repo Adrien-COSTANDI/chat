@@ -13,11 +13,11 @@ const router = createRouter({
     {
       path: '/',
       component: DefaultView,
-      name: 'Root'
+      name: 'Root',
     },
     {
       path: '/:userId',
-      component: ChatView
+      component: ChatView,
     },
     {
       path: '/login',
@@ -29,26 +29,26 @@ const router = createRouter({
       component: RegisterView,
       name: 'Register',
     },
-  ]
+  ],
 })
 
 router.beforeEach((to, from) => {
-  const userStore = userAuthStore();
-  const appState = useAppStateStore();
+  const userStore = userAuthStore()
+  const appState = useAppStateStore()
   if (!userStore.isAuthenticated() && to.name !== 'Login' && to.name !== 'Register') {
     // redirect the user to the login page
-    return {name: 'Login'}
+    return { name: 'Login' }
   }
 
   if (userStore.isAuthenticated() && (to.name === 'Login' || to.name === 'Register')) {
-    return {name: 'Root'}
+    return { name: 'Root' }
   }
 
   if (userExists(to.params.userId as string)) {
-    appState.setSelectedUser(getUserById(to.params.userId as string));
+    appState.setSelectedUser(getUserById(to.params.userId as string))
   } else {
     if (to.name !== 'Root') {
-      console.error("TODO REDIRECT ERROR PAGE"); // TODO
+      console.error('TODO REDIRECT ERROR PAGE') // TODO
     }
   }
 })

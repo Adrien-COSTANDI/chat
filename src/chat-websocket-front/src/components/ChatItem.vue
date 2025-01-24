@@ -23,7 +23,6 @@ defineProps<{
 </template>
 
 <style scoped>
-
 .chat-preview {
   display: flex;
   align-items: center;
@@ -78,5 +77,4 @@ defineProps<{
   text-overflow: ellipsis; /* Add ellipsis for cropped text */
   box-sizing: border-box; /* Include padding in width calculation */
 }
-
 </style>

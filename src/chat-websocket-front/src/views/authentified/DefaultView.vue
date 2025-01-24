@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div class="center-text">
     <h1>👈 Cliquez sur une conversation à gauche</h1>

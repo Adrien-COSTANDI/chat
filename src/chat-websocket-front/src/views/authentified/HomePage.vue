@@ -6,7 +6,12 @@ import SplitterPanel from 'primevue/splitterpanel'
 </script>
 
 <template>
-  <Splitter :gutter-size="6" state-key="splitter-position" state-storage="local" style="height: 100%">
+  <Splitter
+    :gutter-size="6"
+    state-key="splitter-position"
+    state-storage="local"
+    style="height: 100%"
+  >
     <SplitterPanel :size="20" :minSize="10">
       <ChatList :chats="getChatPreviews()" />
     </SplitterPanel>

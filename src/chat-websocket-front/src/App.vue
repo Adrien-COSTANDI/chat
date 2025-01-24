@@ -5,22 +5,22 @@ import HomePage from '@/views/authentified/HomePage.vue'
 import { userAuthStore } from '@/stores/userAuth.ts'
 import { useRouter } from 'vue-router'
 
-const darkModeStore = useDarkModeStore();
+const darkModeStore = useDarkModeStore()
 const router = useRouter()
 const authStore = userAuthStore()
 
 if (darkModeStore.darkMode) {
-  document.documentElement.classList.toggle('my-app-dark');
+  document.documentElement.classList.toggle('my-app-dark')
 }
 
 function toggleDarkMode() {
-  darkModeStore.toggleDarkMode();
-  document.documentElement.classList.toggle('my-app-dark');
+  darkModeStore.toggleDarkMode()
+  document.documentElement.classList.toggle('my-app-dark')
 }
 
 function logout() {
-  authStore.logout();
-  router.push({name: 'Login'});
+  authStore.logout()
+  router.push({ name: 'Login' })
 }
 </script>
 
@@ -29,10 +29,17 @@ function logout() {
     <header>
       <h2>Chat</h2>
       <Button class="dark-mode-toggle" @click="toggleDarkMode()">
-        <i :class="{ 'dark-mode': darkModeStore.darkMode, 'light-mode': !darkModeStore.darkMode }" />
+        <i
+          :class="{ 'dark-mode': darkModeStore.darkMode, 'light-mode': !darkModeStore.darkMode }"
+        />
       </Button>
       <Button v-if="authStore.isAuthenticated()" class="logout-button" @click="logout()">
-        <i :class="{ 'dark-logout': darkModeStore.darkMode, 'light-logout': !darkModeStore.darkMode }" />
+        <i
+          :class="{
+            'dark-logout': darkModeStore.darkMode,
+            'light-logout': !darkModeStore.darkMode,
+          }"
+        />
       </Button>
     </header>
     <main>
@@ -40,7 +47,6 @@ function logout() {
       <RouterView v-else />
     </main>
   </div>
-
 </template>
 
 <style scoped>
