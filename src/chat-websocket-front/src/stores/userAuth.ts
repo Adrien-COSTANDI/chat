@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import type { User } from '@/services/ChatService.ts'
 
 const noUser: User = {
-  id: -1,
+  id: "-1",
   name: 'noUser',
   avatar: 'noUserAvatar',
 }
@@ -14,11 +14,11 @@ export const userAuthStore = defineStore('userAuth', () => {
   )
 
   function isAuthenticated(): boolean {
-    return userAuth.value.id !== -1
+    return userAuth.value.id !== "-1"
   }
 
   function getUser(): User | null {
-    if (userAuth.value.id === -1) {
+    if (userAuth.value.id === "-1") {
       return null
     }
     return userAuth.value

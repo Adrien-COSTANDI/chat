@@ -20,7 +20,7 @@ const router = useRouter()
 const handleLogin = () => {
   if (username.value === 'a' && password.value === 'a') {
     userAuthStore().login({
-      id: 0,
+      id: "0",
       name: 'Adrien',
       avatar: 'AvatarAdrien',
     })
