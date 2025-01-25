@@ -32,7 +32,7 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const userStore = userAuthStore()
   const appState = useAppStateStore()
   if (!userStore.isAuthenticated() && to.name !== 'Login' && to.name !== 'Register') {
