@@ -17,6 +17,7 @@ defineProps<{
 .content {
   word-wrap: anywhere;
   overflow-wrap: anywhere;
+  white-space: pre;
 }
 
 .message-bubble {
