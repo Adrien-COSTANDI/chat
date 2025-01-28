@@ -9,7 +9,6 @@
 }
 
 :root:not([class='my-app-dark']) {
-  --scrollbar-color: var(--p-secondary-200);
   --avatar-border-color: var(--p-surface-800);
   --self-chat-color: var(--p-secondary-200);
   --other-chat-color: var(--p-secondary-100);
@@ -18,58 +17,9 @@
 }
 
 :root[class='my-app-dark'] {
-  --scrollbar-color: var(--p-primary-700);
   --avatar-border-color: var(--p-surface-300);
   --self-chat-color: var(--p-primary-700);
   --other-chat-color: var(--p-primary-900);
   --dark-mode-button-color: var(--p-surface-800);
   --p-surface: var(--p-surface-800);
 }
-
-/*
-:root:not([class="my-app-dark"]) {
-    --button-hover-background-color: var(--p-hover-background-color);
-    --scrollbar-color: var(--p-surface-300);
-    --avatar-border-color: var(--p-surface-300);
-
-    --p-text-color: var(--p-surface-700);
-
-    --selected-background-color: var(--p-surface-200);
-    --active-background-color: var(--p-primary-200);
-
-
-    !*--p-button-primary-background: var(--p-surface-200);*!
-    !*--p-button-primary-hover-background: var(--p-surface-300);*!
-    !*--p-button-primary-active-background: var(--p-surface-400);*!
-    !*--p-button-primary-border-color: var(--p-primary-300);*!
-    !*--p-button-primary-hover-border-color: var(--p-primary-300);*!
-    !*--p-button-primary-active-border-color: var(--p-primary-300);*!
-}
-
-:root[class="my-app-dark"] {
-    --button-hover-background-color: var(--p-hover-background-color);
-
-    !*--button-hover-background-color: var(--p-surface-700);*!
-    --scrollbar-color: var(--p-surface-600);
-    --avatar-border-color: var(--p-surface-600);
-
-    --p-text-color: var(--p-surface-200);
-
-    --selected-background-color: var(--p-surface-600);
-    --active-background-color: var(--p-surface-500);
-
-    !*--p-button-primary-background: var(--p-surface-800);*!
-    !*--p-button-primary-hover-background: var(--p-surface-700);*!
-    !*--p-button-primary-active-background: var(--p-surface-600);*!
-    !*--p-button-primary-border-color: var(--p-primary-800);*!
-    !*--p-button-primary-hover-border-color: var(--p-primary-800);*!
-    !*--p-button-primary-active-border-color: var(--p-primary-800);*!
-
-    !*--p-button-primary-background: var(--p-surface-800);*!
-    !*--p-button-primary-hover-background: var(--p-surface-700);*!
-    !*--p-button-primary-active-background: var(--p-surface-600);*!
-    !*--p-button-primary-border-color: var(--p-primary-800);*!
-    !*--p-button-primary-hover-border-color: var(--p-primary-800);*!
-    !*--p-button-primary-active-border-color: var(--p-primary-800);*!
-}
-*/

@@ -5,21 +5,16 @@ import Button from 'primevue/button'
 
 import ScrollPanel from 'primevue/scrollpanel'
 import type { ChatPreview, Id } from '@/services/ChatService.ts'
+import { useAppStateStore } from '@/stores/useAppStateStore.ts'
 
+const appStateStore = useAppStateStore()
 defineProps<{
   chats: Map<Id, ChatPreview>
 }>()
 </script>
 
 <template>
-  <ScrollPanel
-    style="width: 100%; height: 100%"
-    :dt="{
-      bar: {
-        background: 'var(--scrollbar-color)',
-      },
-    }"
-  >
+  <ScrollPanel style="width: 100%; height: 100%">
     <Button
       as="router-link"
       unstyled
@@ -30,7 +25,7 @@ defineProps<{
     >
       <ChatItem
         class="buttonLink"
-        :class="$route.params.userId === userChatPair[0] ? 'selected' : ''"
+        :class="{selected: $route.params.userId === userChatPair[0]}"
         :chatPreview="userChatPair[1]"
       />
       <Divider style="margin: 0" />

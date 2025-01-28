@@ -98,6 +98,23 @@ const MyPreset = definePreset(Aura, {
       },
     },
   },
+  components: {
+    scrollpanel: {
+      colorScheme: {
+        light: {
+          bar: {
+            background: '{secondary.300}',
+          }
+        },
+        dark: {
+          bar: {
+            background: '{primary.700}',
+          }
+        }
+      }
+
+    }
+  }
 })
 
 app.use(PrimeVue, {
