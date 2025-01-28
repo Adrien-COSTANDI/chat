@@ -12,7 +12,7 @@ const props = defineProps({
 const myPropRef = toRef(props, 'draft')
 
 const newMessage = ref(props.draft)
-const emit = defineEmits(['sendMessage', 'onValueChange'])
+const emit = defineEmits(['onSendMessage', 'onValueChange'])
 
 const inputRef = useTemplateRef<ComponentPublicInstance>('input')
 
@@ -29,7 +29,7 @@ onMounted(() => {
 })
 
 function submit(): void {
-  emit('sendMessage', newMessage.value)
+  emit('onSendMessage', newMessage.value)
   newMessage.value = ''
 }
 

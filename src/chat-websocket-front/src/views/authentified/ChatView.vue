@@ -74,13 +74,13 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
           :message="message"
           :newDay="shouldTriggerNewDay(message.timestamp, chat.messages[index - 1]?.timestamp)"
         />
-        <div ref="bottomEl"></div>
+        <div class="targetScrollBottom" ref="bottomEl"></div>
       </div>
     </ScrollPanel>
 
     <MessageInput
       :draft="draftMessage"
-      @sendMessage="sendMessage"
+      @onSendMessage="sendMessage"
       @onValueChange="(value) => updateDraft(value)"
     />
   </div>
@@ -95,12 +95,16 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
 .chats {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .chat-container {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.targetScrollBottom {
+  margin-top: 4px;
 }
 </style>
