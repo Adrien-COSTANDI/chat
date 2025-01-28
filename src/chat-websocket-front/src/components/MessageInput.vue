@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { type ComponentPublicInstance, onMounted, ref, toRef, useTemplateRef, watch } from 'vue'
 import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
 import { useAppStateStore } from '@/stores/useAppStateStore.ts'
+import Textarea from 'primevue/textarea'
 
 const appState = useAppStateStore()
 
@@ -39,16 +39,20 @@ function onValueChange(): void {
 </script>
 
 <template>
-  <form @submit.prevent="submit" class="message-prompt">
-    <InputText
+  <div class="message-prompt">
+    <Textarea
       ref="input"
+      rows="1"
+      maxlength="20"
+      autoResize
+      @keydown.enter.exact.prevent="submit"
       @valueChange="onValueChange()"
       v-model="newMessage"
       placeholder="Type a message..."
       class="message-input"
     />
     <Button @click="submit" label="Send" class="send-button" />
-  </form>
+  </div>
 </template>
 
 <style scoped>
