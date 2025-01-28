@@ -43,7 +43,6 @@ function onValueChange(): void {
     <Textarea
       ref="input"
       rows="1"
-      maxlength="20"
       autoResize
       @keydown.enter.exact.prevent="submit"
       @valueChange="onValueChange()"
