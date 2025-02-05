@@ -60,6 +60,7 @@ function onValueChange(): void {
   gap: 10px;
   padding: 10px;
   background: var(--p-surface);
+  border-radius: 7px 7px 0 0;
 }
 
 .message-input {
