@@ -43,12 +43,11 @@ function onValueChange(): void {
     <Textarea
       ref="input"
       rows="1"
-      autoResize
       @keydown.enter.exact.prevent="submit"
       @valueChange="onValueChange()"
       v-model="newMessage"
       placeholder="Type a message..."
-      class="message-input"
+      class="textArea"
     />
     <Button @click="submit" label="Send" class="send-button" />
   </div>
@@ -61,10 +60,13 @@ function onValueChange(): void {
   padding: 10px;
   background: var(--p-surface);
   border-radius: 7px 7px 0 0;
+  max-height: 40%; /* Limit textarea growth */
 }
 
-.message-input {
+.textArea {
   flex-grow: 1;
+  resize: none;
+  field-sizing: content;
 }
 
 .send-button {
