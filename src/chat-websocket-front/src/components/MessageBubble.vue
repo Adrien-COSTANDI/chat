@@ -22,7 +22,7 @@ defineProps<{
 
 .message-bubble {
   padding: 7px 15px;
-  border-radius: 15px;
+  border-radius: 8px;
   background-color: var(--other-chat-color);
   display: flex;
   flex-direction: column;

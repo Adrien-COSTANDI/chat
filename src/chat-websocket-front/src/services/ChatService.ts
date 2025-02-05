@@ -78,6 +78,18 @@ chats.set(bibi.id, {
       content: 'Salut !',
       timestamp: new Date(2025, 0, 12, 17, 24, 11, 31),
     },
+    {
+      id: 2,
+      user: bibi,
+      content: 'yo',
+      timestamp: new Date(2025, 0, 12, 17, 29, 11, 31),
+    },
+    {
+      id: 3,
+      user: bibi,
+      content: 'ça va ?',
+      timestamp: new Date(2025, 0, 12, 17, 29, 35, 31),
+    },
   ],
 })
 chats.set(azerty.id, {
