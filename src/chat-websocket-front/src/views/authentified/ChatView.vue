@@ -19,6 +19,7 @@ watch(appStateStore.getSelectedUser, (newUser) => {
   chat.value = getChat(newUser.id)
   chat.value.messages.map(message => [message.content, message.timestamp.toLocaleString()]).forEach(e => console.log(e))
   draftMessage.value = getDraftMessageForUser(newUser.id)
+  nearBottom.value = true
 })
 
 function sendMessage(newMessage: string) {
@@ -103,16 +104,28 @@ function onScroll(event: Event) {
       </div>
     </ScrollPanel>
 
-    <div v-show="!nearBottom" @click="scrollToBottom(true)" class="scrollToBottom">Scroll to bottom</div>
+    <Transition>
+      <div v-if="!nearBottom" @click="scrollToBottom(true)" class="scrollToBottom">Scroll to bottom</div>
+    </Transition>
     <MessageInput
       :draft="draftMessage"
       @onSendMessage="sendMessage"
-      @onValueChange="(value) => updateDraft(value)"
+      @onValueChange="updateDraft"
+      style="z-index: 1"
     />
   </div>
 </template>
 
 <style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: 0.2s cubic-bezier(.33,-0.50,.66,1.5);
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateY(50px);
+}
 
 .scrollToBottom {
   padding-left: 1rem;
