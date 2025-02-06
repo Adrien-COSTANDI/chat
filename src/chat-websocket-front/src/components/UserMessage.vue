@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { type Message, myself } from '@/services/ChatService.ts'
+import { type Message } from '@/services/ChatService.ts'
 import icon from '@/assets/logo.svg'
 import Avatar from 'primevue/avatar'
 import Divider from 'primevue/divider'
 import MessageBubble from '@/components/MessageBubble.vue'
 import Tag from 'primevue/tag'
+import { userAuthStore } from '@/stores/userAuth'
 
 defineProps<{
   message: Message
   newDay: boolean
 }>()
+
+const authStore = userAuthStore()
 </script>
 
 <template>
@@ -18,7 +21,7 @@ defineProps<{
   </Divider>
   <div
     class="message"
-    :class="{ self: message.user.id === myself.id, other: message.user.id !== myself.id }"
+    :class="{ self: message.user.id === authStore.getUser()?.id, other: message.user.id !== authStore.getUser()?.id }"
   >
     <Avatar :image="icon" class="avatar" shape="circle" />
     <MessageBubble :message="message" />

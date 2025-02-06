@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { getChatPreviews } from '@/services/ChatService.ts'
 import ChatList from '@/components/ChatList.vue'
 import Splitter from 'primevue/splitter'
 import SplitterPanel from 'primevue/splitterpanel'
+import { useChatStore } from '@/stores/chatStore.ts'
+
+const chatStore = useChatStore()
 </script>
 
 <template>
@@ -13,7 +15,7 @@ import SplitterPanel from 'primevue/splitterpanel'
     style="height: 100%"
   >
     <SplitterPanel :size="20" :minSize="10">
-      <ChatList :chats="getChatPreviews()" />
+      <ChatList :chats="chatStore.getChatPreviews()" />
     </SplitterPanel>
     <SplitterPanel :size="80" :minSize="50">
       <RouterView />

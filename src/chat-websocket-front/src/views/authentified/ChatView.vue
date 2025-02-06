@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { type ComponentPublicInstance, onMounted, ref, useTemplateRef, watch } from 'vue'
 import MessageInput from '@/components/MessageInput.vue'
-import { type Chat, getChat, getDraftMessageForUser, myself, setDraftMessageForUser } from '@/services/ChatService.ts'
+import { type Chat, getDraftMessageForUser, setDraftMessageForUser } from '@/services/ChatService.ts'
 import UserMessage from '@/components/UserMessage.vue'
 import ScrollPanel from 'primevue/scrollpanel'
 import { useAppStateStore } from '@/stores/useAppStateStore.ts'
+import { useChatStore } from '@/stores/chatStore.ts'
 
 const chat = ref({ messages: [] } as Chat)
 const draftMessage = ref('')
@@ -14,10 +15,10 @@ const bottom = useTemplateRef<Element>('bottomEl')
 const scrollPanelRef = useTemplateRef<ComponentPublicInstance>('scrollPanelRef')
 
 const appStateStore = useAppStateStore()
+const chatStore = useChatStore()
 
 watch(appStateStore.getSelectedUser, (newUser) => {
-  chat.value = getChat(newUser.id)
-  chat.value.messages.map(message => [message.content, message.timestamp.toLocaleString()]).forEach(e => console.log(e))
+  chat.value = chatStore.getChatByUserId(newUser.id)
   draftMessage.value = getDraftMessageForUser(newUser.id)
   nearBottom.value = true
 })
@@ -25,12 +26,7 @@ watch(appStateStore.getSelectedUser, (newUser) => {
 function sendMessage(newMessage: string) {
   newMessage = newMessage.trim()
   if (newMessage) {
-    chat.value.messages.push({
-      id: Date.now(),
-      timestamp: new Date(Date.now()),
-      content: newMessage,
-      user: myself,
-    })
+    chatStore.addNewMessageInChatByUserId(appStateStore.getSelectedUser().id, newMessage)
     setDraftMessageForUser(appStateStore.getSelectedUser().id, '')
     if (nearBottom.value) {
       scrollToBottom()
@@ -54,7 +50,7 @@ watch(
 )
 
 onMounted(() => {
-  chat.value = getChat(appStateStore.getSelectedUser().id)
+  chat.value = chatStore.getChatByUserId(appStateStore.getSelectedUser().id)
   draftMessage.value = getDraftMessageForUser(appStateStore.getSelectedUser().id)
   scrollToBottom()
 })

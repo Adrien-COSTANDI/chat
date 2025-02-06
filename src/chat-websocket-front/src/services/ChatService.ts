@@ -28,12 +28,12 @@ export const myself: User = {
   avatar: 'avatar',
   id: '1',
 }
-const bibi: User = {
+export const bibi: User = {
   name: 'bibi',
   avatar: 'avatar',
   id: '2',
 }
-const azerty: User = {
+export const azerty: User = {
   name: 'azerty',
   avatar: 'avatar',
   id: '3',
@@ -53,82 +53,6 @@ export function getUserById(userId: Id): User {
 
 export function userExists(userId: Id): boolean {
   return users.has(userId)
-}
-
-export function getChatPreviews(): Map<Id, ChatPreview> {
-  return new Map(
-    Array.from(chats.entries()).map<[Id, ChatPreview]>((entry) => [
-      entry[0],
-      {
-        lastMessage: entry[1].messages[entry[1].messages.length - 1]?.content,
-        timestamp: entry[1].messages[entry[1].messages.length - 1]?.timestamp || new Date(),
-        user: getUserById(entry[0]),
-      },
-    ]),
-  )
-}
-
-const chats = new Map<Id, Chat>()
-chats.set(myself.id, { messages: [] })
-chats.set(bibi.id, {
-  messages: [
-    {
-      id: 1,
-      user: myself,
-      content: 'Salut !',
-      timestamp: new Date(2025, 0, 12, 17, 24, 11, 31),
-    },
-    {
-      id: 2,
-      user: bibi,
-      content: 'yo',
-      timestamp: new Date(2025, 0, 12, 17, 29, 11, 31),
-    },
-    {
-      id: 3,
-      user: bibi,
-      content: 'ça va ?',
-      timestamp: new Date(2025, 0, 12, 17, 29, 35, 31),
-    },
-  ],
-})
-chats.set(azerty.id, {
-  messages: [
-    {
-      id: 1,
-      user: myself,
-      content: 'Salut !',
-      timestamp: new Date(2024, 11, 24, 17, 24, 11, 31),
-    },
-    {
-      id: 2,
-      user: azerty,
-      content: 'Salut !',
-      timestamp: new Date(2024, 11, 24, 17, 26, 18, 6),
-    },
-    {
-      id: 3,
-      user: myself,
-      content: 'Test bla bla bla',
-      timestamp: new Date(new Date(2024, 11, 24, 18, 3, 48, 65)),
-    },
-    {
-      id: 4,
-      user: myself,
-      content: 'Et bonne année !',
-      timestamp: new Date(2025, 0, 1, 0, 1, 12, 48),
-    },
-    {
-      id: 5,
-      user: azerty,
-      content: 'Bonne année !',
-      timestamp: new Date(Date.now()),
-    },
-  ],
-})
-
-export function getChat(userId: Id): Chat {
-  return chats.get(userId) || { messages: [] }
 }
 
 const drafts = new Map<Id, string>()
