@@ -8,6 +8,7 @@ import FloatLabel from 'primevue/floatlabel'
 import { userAuthStore } from '@/stores/userAuth.ts'
 import Message from 'primevue/message'
 import { useRouter } from 'vue-router'
+import { myself } from '@/services/ChatService.ts'
 
 // Define reactive variables
 const username = ref('')
@@ -19,11 +20,7 @@ const router = useRouter()
 // Handle form submission
 const handleLogin = () => {
   if (username.value === 'a' && password.value === 'a') {
-    userAuthStore().login({
-      id: "0",
-      name: 'Adrien',
-      avatar: 'AvatarAdrien',
-    })
+    userAuthStore().login(myself)
     router.push({ name: 'Root' })
   } else {
     badLogin.value = true
