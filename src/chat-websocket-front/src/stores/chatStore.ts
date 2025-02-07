@@ -1,29 +1,17 @@
 import { defineStore } from 'pinia'
-import {
-  azerty,
-  bibi,
-  type Chat,
-  type ChatPreview,
-  getUserById,
-  type Id,
-  myself,
-  type Page
-} from '@/services/ChatService.ts'
+import { azerty, bibi, type Chat, type ChatPreview, getUserById, type Id, myself } from '@/services/ChatService.ts'
 import { ref } from 'vue'
 import { userAuthStore } from '@/stores/userAuth.ts'
 
 export const useChatStore = defineStore('chatStore', () => {
   const chats = ref(new Map<Id, Chat>())
 
-  chats.value.set(myself.id,
-    Array.from({ length: 1000 })
-      .map((_, i) => ({
+  chats.value.set(myself.id, Array.from({ length: 1000 }).map((_, i) => ({
         id: i,
         user: Math.random() < .5 ? myself : azerty,
         content: 'Message ' + i,
         timestamp: new Date(2024, 8, 12, i, 14, 11, 31)
-      }))
-  )
+      })))
   chats.value.set(bibi.id, [
       {
         id: 1,
@@ -43,8 +31,7 @@ export const useChatStore = defineStore('chatStore', () => {
         content: 'ça va ?',
         timestamp: new Date(2025, 0, 12, 17, 29, 35, 31),
       },
-    ],
-  )
+    ])
   chats.value.set(azerty.id, [
       {
         id: 1,
@@ -76,15 +63,20 @@ export const useChatStore = defineStore('chatStore', () => {
         content: 'Bonne année !',
         timestamp: new Date(Date.now()),
       },
-    ],
-  )
+    ])
 
-  function getChatByUserId(userId: Id, page: Page = {start: 0, limit: 50}): Chat {
+  function getChatByUserId(userId: Id, page: number = 0): Chat {
     if (!chats.value.has(userId)) {
       throw new Error('Invalid user Id')
     }
-    return chats.value.get(userId)!
-    // return chats.value.get(userId).messages.slice(page.start, page.start + page.limit)!
+    const messages = chats.value.get(userId)!
+
+    const pageSize = 100;
+    const maxPage = messages.length / pageSize - 1
+    if (page > maxPage) page = maxPage
+    if (page < 0) page = 0
+
+    return messages.slice((maxPage - page) * pageSize, (maxPage - page + 1) * pageSize)!
   }
 
   function addNewMessageInChatByUserId(userId: Id, message: string) {
