@@ -1,22 +1,30 @@
 import { defineStore } from 'pinia'
-import { azerty, bibi, type Chat, type ChatPreview, getUserById, type Id, myself } from '@/services/ChatService.ts'
+import {
+  azerty,
+  bibi,
+  type Chat,
+  type ChatPreview,
+  getUserById,
+  type Id,
+  myself,
+  type Page
+} from '@/services/ChatService.ts'
 import { ref } from 'vue'
 import { userAuthStore } from '@/stores/userAuth.ts'
 
 export const useChatStore = defineStore('chatStore', () => {
   const chats = ref(new Map<Id, Chat>())
 
-  chats.value.set(myself.id, { messages:
-      Array.from({ length: 1000 })
-        .map((_, i) => ({
-          id: i,
-          user: Math.random() < .5 ? myself : azerty,
-          content: 'Message ' + i,
-          timestamp: new Date(2024, 8, 12, i, 14, 11, 31),
-        }))
-  })
-  chats.value.set(bibi.id, {
-    messages: [
+  chats.value.set(myself.id,
+    Array.from({ length: 1000 })
+      .map((_, i) => ({
+        id: i,
+        user: Math.random() < .5 ? myself : azerty,
+        content: 'Message ' + i,
+        timestamp: new Date(2024, 8, 12, i, 14, 11, 31)
+      }))
+  )
+  chats.value.set(bibi.id, [
       {
         id: 1,
         user: myself,
@@ -36,9 +44,8 @@ export const useChatStore = defineStore('chatStore', () => {
         timestamp: new Date(2025, 0, 12, 17, 29, 35, 31),
       },
     ],
-  })
-  chats.value.set(azerty.id, {
-    messages: [
+  )
+  chats.value.set(azerty.id, [
       {
         id: 1,
         user: myself,
@@ -70,20 +77,21 @@ export const useChatStore = defineStore('chatStore', () => {
         timestamp: new Date(Date.now()),
       },
     ],
-  })
+  )
 
-  function getChatByUserId(userId: Id): Chat {
+  function getChatByUserId(userId: Id, page: Page = {start: 0, limit: 50}): Chat {
     if (!chats.value.has(userId)) {
       throw new Error('Invalid user Id')
     }
     return chats.value.get(userId)!
+    // return chats.value.get(userId).messages.slice(page.start, page.start + page.limit)!
   }
 
   function addNewMessageInChatByUserId(userId: Id, message: string) {
     if (!chats.value.has(userId)) {
       throw new Error('Invalid user Id')
     }
-    chats.value.get(userId)!.messages.push({
+    chats.value.get(userId)!.push({
       id: Date.now(),
       timestamp: new Date(Date.now()),
       content: message,
@@ -96,8 +104,8 @@ export const useChatStore = defineStore('chatStore', () => {
       Array.from(chats.value.entries()).map<[Id, ChatPreview]>((entry) => [
         entry[0],
         {
-          lastMessage: entry[1].messages[entry[1].messages.length - 1]?.content,
-          timestamp: entry[1].messages[entry[1].messages.length - 1]?.timestamp || new Date(),
+          lastMessage: entry[1][entry[1].length - 1]?.content,
+          timestamp: entry[1][entry[1].length - 1]?.timestamp || new Date(),
           user: getUserById(entry[0]),
         },
       ]),

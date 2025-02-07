@@ -7,7 +7,7 @@ import ScrollPanel from 'primevue/scrollpanel'
 import { useAppStateStore } from '@/stores/useAppStateStore.ts'
 import { useChatStore } from '@/stores/chatStore.ts'
 
-const chat = ref({ messages: [] } as Chat)
+const chat = ref([] as Chat)
 const draftMessage = ref('')
 const nearBottom = ref(true)
 
@@ -91,10 +91,10 @@ function onScroll(event: Event) {
     >
       <div class="chats">
         <UserMessage
-          v-for="(message, index) in chat.messages"
+          v-for="(message, index) in chat"
           :key="message.id"
           :message="message"
-          :newDay="shouldTriggerNewDay(message.timestamp, chat.messages[index - 1]?.timestamp)"
+          :newDay="shouldTriggerNewDay(message.timestamp, chat[index - 1]?.timestamp)"
         />
         <div class="targetScrollBottom" ref="bottomEl"></div>
       </div>

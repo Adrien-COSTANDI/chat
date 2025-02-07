@@ -19,8 +19,11 @@ export type Message = {
   timestamp: Date
 }
 
-export type Chat = {
-  messages: Message[]
+export type Chat = Message[]
+
+export type Page = {
+  start: number,
+  limit: number
 }
 
 export const myself: User = {
