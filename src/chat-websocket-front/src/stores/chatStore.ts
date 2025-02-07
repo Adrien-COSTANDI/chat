@@ -6,7 +6,15 @@ import { userAuthStore } from '@/stores/userAuth.ts'
 export const useChatStore = defineStore('chatStore', () => {
   const chats = ref(new Map<Id, Chat>())
 
-  chats.value.set(myself.id, { messages: [] })
+  chats.value.set(myself.id, { messages:
+      Array.from({ length: 1000 })
+        .map((_, i) => ({
+          id: i,
+          user: Math.random() < .5 ? myself : azerty,
+          content: 'Message ' + i,
+          timestamp: new Date(2024, 8, 12, i, 14, 11, 31),
+        }))
+  })
   chats.value.set(bibi.id, {
     messages: [
       {
