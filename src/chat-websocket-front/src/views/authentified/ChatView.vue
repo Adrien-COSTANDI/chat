@@ -21,27 +21,27 @@ const appStateStore = useAppStateStore()
 const chatStore = useChatStore()
 
 onMounted(() => {
-  page.value = 2
+  page.value = 0
   chat.value = [
     ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 2),
     ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 1),
     ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 0),
   ]
-  draftMessage.value = getDraftMessageForUser(appStateStore.getSelectedUser().id)
   nearBottom.value = true
   scrollToBottom()
+  draftMessage.value = getDraftMessageForUser(appStateStore.getSelectedUser().id)
 })
 
 watch(appStateStore.getSelectedUser, (newUser) => {
-  page.value = 2
+  page.value = 0
   chat.value = [
     ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 2),
     ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 1),
     ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 0),
   ]
-  draftMessage.value = getDraftMessageForUser(newUser.id)
   nearBottom.value = true
   scrollToBottom()
+  draftMessage.value = getDraftMessageForUser(newUser.id)
 })
 
 function sendMessage(newMessage: string) {
@@ -102,15 +102,15 @@ function onScroll(event: Event) {
   const userId = appStateStore.getSelectedUser().id
 
   if (isScrollingUp.value && scrollContent.scrollTop < 950) {
-    if (page.value < chatStore.getMaxPage(userId)) {
+    if (page.value + 2 < chatStore.getMaxPage(userId)) {
       page.value++
-      chat.value = [...chatStore.getChatByUserId(userId, page.value), ...chat.value.slice(0, chat.value.length - chatStore.pageSize)]
+      chat.value = [...chatStore.getChatByUserId(userId, page.value + 2), ...chat.value.slice(0, chat.value.length - chatStore.pageSize)]
     }
   }
   if (!isScrollingUp.value && distanceToBottom < 950) {
-    if (page.value > 2) {
+    if (page.value > 0) {
       page.value--
-      chat.value = [...chat.value.slice(chatStore.pageSize), ...chatStore.getChatByUserId(userId, page.value - 2)]
+      chat.value = [...chat.value.slice(chatStore.pageSize), ...chatStore.getChatByUserId(userId, page.value)]
     }
   }
 }
@@ -136,7 +136,7 @@ function onScroll(event: Event) {
     </ScrollPanel>
 
     <Transition>
-      <div v-if="!nearBottom" @click="scrollToBottom(true)" class="scrollToBottom">Scroll to bottom</div>
+      <div v-if="page !== 0" @click="scrollToBottom(true)" class="scrollToBottom">Scroll to bottom</div>
     </Transition>
     <MessageInput
       :draft="draftMessage"
