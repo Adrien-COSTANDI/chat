@@ -101,16 +101,18 @@ function onScroll(event: Event) {
 
   const userId = appStateStore.getSelectedUser().id
 
-  if (isScrollingUp.value && scrollContent.scrollTop < 550) {
+  if (isScrollingUp.value && scrollContent.scrollTop < 950) {
     if (page.value < chatStore.getMaxPage(userId)) {
       page.value++
       chat.value = [...chatStore.getChatByUserId(userId, page.value), ...chat.value.slice(0, chat.value.length - chatStore.pageSize)]
     }
   }
-  // if (!isScrollingUp.value && distanceToBottom < 550) {
-  //   page.value--
-  //   chat.value = chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value) //[...chat.value.slice(0, 100), ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value)]
-  // }
+  if (!isScrollingUp.value && distanceToBottom < 950) {
+    if (page.value > 2) {
+      page.value--
+      chat.value = [...chat.value.slice(chatStore.pageSize), ...chatStore.getChatByUserId(userId, page.value - 2)]
+    }
+  }
 }
 </script>
 

@@ -7,7 +7,7 @@ export const useChatStore = defineStore('chatStore', () => {
   const chats = ref(new Map<Id, Chat>())
   const pageSize = 30
 
-  chats.value.set(myself.id, Array.from({ length: 100 }).map((_, i) => ({
+  chats.value.set(myself.id, Array.from({ length: 400 }).map((_, i) => ({
         id: i,
         user: Math.random() < .5 ? myself : azerty,
         content: 'Message ' + i,
