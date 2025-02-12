@@ -10,6 +10,9 @@ import { useChatStore } from '@/stores/chatStore.ts'
 const chat = ref([] as Chat)
 const draftMessage = ref('')
 const nearBottom = ref(true)
+const page = ref(0)
+const lastScrollTop = ref(0);
+const isScrollingUp = ref(false);
 
 const bottom = useTemplateRef<Element>('bottomEl')
 const scrollPanelRef = useTemplateRef<ComponentPublicInstance>('scrollPanelRef')
@@ -17,10 +20,28 @@ const scrollPanelRef = useTemplateRef<ComponentPublicInstance>('scrollPanelRef')
 const appStateStore = useAppStateStore()
 const chatStore = useChatStore()
 
+onMounted(() => {
+  page.value = 2
+  chat.value = [
+    ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 2),
+    ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 1),
+    ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 0),
+  ]
+  draftMessage.value = getDraftMessageForUser(appStateStore.getSelectedUser().id)
+  nearBottom.value = true
+  scrollToBottom()
+})
+
 watch(appStateStore.getSelectedUser, (newUser) => {
-  chat.value = chatStore.getChatByUserId(newUser.id)
+  page.value = 2
+  chat.value = [
+    ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 2),
+    ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 1),
+    ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, 0),
+  ]
   draftMessage.value = getDraftMessageForUser(newUser.id)
   nearBottom.value = true
+  scrollToBottom()
 })
 
 function sendMessage(newMessage: string) {
@@ -45,15 +66,11 @@ watch(
     if (nearBottom.value) {
       scrollToBottom()
     }
+    console.log(chat.value[chat.value.length - 1].content, " - ", chat.value[0].content)
+    console.log("nb messages chargés", chat.value.length)
   },
   { deep: true, flush: 'post' }
 )
-
-onMounted(() => {
-  chat.value = chatStore.getChatByUserId(appStateStore.getSelectedUser().id)
-  draftMessage.value = getDraftMessageForUser(appStateStore.getSelectedUser().id)
-  scrollToBottom()
-})
 
 function scrollToBottom(smooth: boolean = false) {
   if (smooth) {
@@ -76,8 +93,30 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
 }
 
 function onScroll(event: Event) {
-  const scrollContent = event.target as HTMLElement;
-  nearBottom.value = scrollContent.scrollHeight - scrollContent.scrollTop - scrollContent.clientHeight < 350;
+  const scrollContent = event.target as HTMLElement
+  const distanceToBottom = scrollContent.scrollHeight - scrollContent.scrollTop - scrollContent.clientHeight
+  nearBottom.value = distanceToBottom < 550
+
+  const currentScroll = scrollContent.scrollTop
+
+  if (currentScroll < lastScrollTop.value) {
+    isScrollingUp.value = true // User is scrolling up
+    console.log("up !")
+  } else {
+    console.log("down !")
+    isScrollingUp.value = false // User is scrolling down
+  }
+
+  lastScrollTop.value = currentScroll <= 0 ? 0 : currentScroll
+
+  if (isScrollingUp.value && scrollContent.scrollTop < 350) {
+    page.value++
+    chat.value = [...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value), ...chat.value.slice(0, chat.value.length - 30)] // chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value)
+  }
+  // if (!isScrollingUp.value && distanceToBottom < 350) {
+  //   page.value--
+  //   chat.value = chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value) //[...chat.value.slice(0, 100), ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value)]
+  // }
 }
 </script>
 

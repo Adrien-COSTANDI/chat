@@ -6,7 +6,7 @@ import { userAuthStore } from '@/stores/userAuth.ts'
 export const useChatStore = defineStore('chatStore', () => {
   const chats = ref(new Map<Id, Chat>())
 
-  chats.value.set(myself.id, Array.from({ length: 1000 }).map((_, i) => ({
+  chats.value.set(myself.id, Array.from({ length: 100 }).map((_, i) => ({
         id: i,
         user: Math.random() < .5 ? myself : azerty,
         content: 'Message ' + i,
@@ -71,12 +71,20 @@ export const useChatStore = defineStore('chatStore', () => {
     }
     const messages = chats.value.get(userId)!
 
-    const pageSize = 100;
+    const pageSize = 30;
     const maxPage = messages.length / pageSize - 1
-    if (page > maxPage) page = maxPage
+    if (page === Math.ceil(maxPage)) page = maxPage
+    if (page > Math.ceil(maxPage)) {
+      throw new Error('Invalid page') // TODO
+    }
     if (page < 0) page = 0
 
-    return messages.slice((maxPage - page) * pageSize, (maxPage - page + 1) * pageSize)!
+    if (page === maxPage) { // take only the rest, do not duplicate
+      const leftOver = messages.length % pageSize
+      return messages.slice((maxPage - page) * pageSize, leftOver)!
+    } else {
+      return messages.slice((maxPage - page) * pageSize, (maxPage - page + 1) * pageSize)!
+    }
   }
 
   function addNewMessageInChatByUserId(userId: Id, message: string) {
