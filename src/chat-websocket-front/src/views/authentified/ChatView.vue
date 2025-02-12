@@ -66,8 +66,6 @@ watch(
     if (nearBottom.value) {
       scrollToBottom()
     }
-    console.log(chat.value[chat.value.length - 1].content, " - ", chat.value[0].content)
-    console.log("nb messages chargés", chat.value.length)
   },
   { deep: true, flush: 'post' }
 )
@@ -98,22 +96,18 @@ function onScroll(event: Event) {
   nearBottom.value = distanceToBottom < 550
 
   const currentScroll = scrollContent.scrollTop
-
-  if (currentScroll < lastScrollTop.value) {
-    isScrollingUp.value = true // User is scrolling up
-    console.log("up !")
-  } else {
-    console.log("down !")
-    isScrollingUp.value = false // User is scrolling down
-  }
-
+  isScrollingUp.value = currentScroll < lastScrollTop.value;
   lastScrollTop.value = currentScroll <= 0 ? 0 : currentScroll
 
-  if (isScrollingUp.value && scrollContent.scrollTop < 350) {
-    page.value++
-    chat.value = [...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value), ...chat.value.slice(0, chat.value.length - 30)] // chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value)
+  const userId = appStateStore.getSelectedUser().id
+
+  if (isScrollingUp.value && scrollContent.scrollTop < 550) {
+    if (page.value < chatStore.getMaxPage(userId)) {
+      page.value++
+      chat.value = [...chatStore.getChatByUserId(userId, page.value), ...chat.value.slice(0, chat.value.length - chatStore.pageSize)]
+    }
   }
-  // if (!isScrollingUp.value && distanceToBottom < 350) {
+  // if (!isScrollingUp.value && distanceToBottom < 550) {
   //   page.value--
   //   chat.value = chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value) //[...chat.value.slice(0, 100), ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value)]
   // }

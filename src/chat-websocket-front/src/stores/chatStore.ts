@@ -5,6 +5,7 @@ import { userAuthStore } from '@/stores/userAuth.ts'
 
 export const useChatStore = defineStore('chatStore', () => {
   const chats = ref(new Map<Id, Chat>())
+  const pageSize = 30
 
   chats.value.set(myself.id, Array.from({ length: 100 }).map((_, i) => ({
         id: i,
@@ -70,12 +71,11 @@ export const useChatStore = defineStore('chatStore', () => {
       throw new Error('Invalid user Id')
     }
     const messages = chats.value.get(userId)!
+    const maxPage = _getMaxPage(userId)
 
-    const pageSize = 30;
-    const maxPage = messages.length / pageSize - 1
     if (page === Math.ceil(maxPage)) page = maxPage
     if (page > Math.ceil(maxPage)) {
-      throw new Error('Invalid page') // TODO
+      throw new Error('Invalid page : ' + page + ". Max page is : " + maxPage) // TODO
     }
     if (page < 0) page = 0
 
@@ -85,6 +85,18 @@ export const useChatStore = defineStore('chatStore', () => {
     } else {
       return messages.slice((maxPage - page) * pageSize, (maxPage - page + 1) * pageSize)!
     }
+  }
+
+  function _getMaxPage(userId: Id) {
+    if (!chats.value.has(userId)) {
+      throw new Error('Invalid user Id')
+    }
+    const messages = chats.value.get(userId)!
+    return messages.length / pageSize - 1
+  }
+
+  function getMaxPage(userId: Id) {
+    return Math.ceil(_getMaxPage(userId))
   }
 
   function addNewMessageInChatByUserId(userId: Id, message: string) {
@@ -112,5 +124,5 @@ export const useChatStore = defineStore('chatStore', () => {
     )
   }
 
-  return { getChatByUserId, addNewMessageInChatByUserId, getChatPreviews }
+  return { getChatByUserId, addNewMessageInChatByUserId, getChatPreviews, pageSize, getMaxPage }
 })
