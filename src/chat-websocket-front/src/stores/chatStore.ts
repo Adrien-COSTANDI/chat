@@ -7,7 +7,7 @@ export const useChatStore = defineStore('chatStore', () => {
   const chats = ref(new Map<Id, Chat>())
   const pageSize = 50
 
-  chats.value.set(myself.id, Array.from({ length: 201 }).map((_, i) => ({
+  chats.value.set(myself.id, Array.from({ length: 249 }).map((_, i) => ({
         id: i,
         user: Math.random() < .5 ? myself : azerty,
         content: 'Message ' + i,
@@ -81,7 +81,7 @@ export const useChatStore = defineStore('chatStore', () => {
 
     if (page === maxPage) { // take only the rest, do not duplicate
       const leftOver = messages.length % pageSize
-      return messages.slice((maxPage - page) * leftOver === 0 ? pageSize : leftOver, leftOver === 0 ? pageSize : leftOver)!
+      return messages.slice(0, leftOver === 0 ? pageSize : leftOver)!
     } else {
       return messages.slice((maxPage - page) * pageSize, (maxPage - page + 1) * pageSize)!
     }

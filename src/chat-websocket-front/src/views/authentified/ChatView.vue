@@ -3,9 +3,9 @@ import { onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue'
 import MessageInput from '@/components/MessageInput.vue'
 import { type Chat, getDraftMessageForUser, setDraftMessageForUser } from '@/services/ChatService.ts'
 import UserMessage from '@/components/UserMessage.vue'
-import ScrollPanel from 'primevue/scrollpanel'
 import { useAppStateStore } from '@/stores/useAppStateStore.ts'
 import { useChatStore } from '@/stores/chatStore.ts'
+import LazyScrollPannel from '@/components/common/LazyScrollPannel.vue'
 
 const appStateStore = useAppStateStore()
 const chatStore = useChatStore()
@@ -15,8 +15,6 @@ const draftMessage = ref('')
 const page = ref(0)
 const pageOffset = ref(0)
 const maxPage = ref(0)
-const lastScrollTop = ref(0);
-const isScrollingUp = ref(false);
 
 const bottom = useTemplateRef<Element>('bottomEl')
 
@@ -53,12 +51,12 @@ watch(
     // if (page.value == 0) {
     //   scrollToBottom()
     // }
-    console.log(c.length)
+    console.log("chat length", c.length)
   },
   { flush: 'post' }
 )
 
-watch(page, p => console.log(p))
+watch(page, p => console.log("page", p))
 
 function sendMessage(newMessage: string) {
   newMessage = newMessage.trim()
@@ -96,41 +94,42 @@ function shouldTriggerNewDay(date1: Date, date2: Date | undefined): boolean {
   )
 }
 
-function onScroll(event: Event) {
-  const scrollContent = event.target as HTMLElement
-  const distanceToBottom = scrollContent.scrollHeight - scrollContent.scrollTop - scrollContent.clientHeight
-
-  const currentScroll = scrollContent.scrollTop
-  isScrollingUp.value = currentScroll < lastScrollTop.value;
-  lastScrollTop.value = currentScroll <= 0 ? 0 : currentScroll
-  const userId = appStateStore.getSelectedUser().id
-
-  if (isScrollingUp.value && scrollContent.scrollTop < 100) {
-    if (page.value + pageOffset.value < maxPage.value) {
-      page.value++
-      chat.value = [...chatStore.getChatByUserId(userId, page.value + pageOffset.value), ...chat.value.slice(0, chatStore.pageSize)]
-    } else {
-      console.log("max page atteinte")
-    }
+function onScrollDown(scrollRatio: number) {
+  if (scrollRatio < 0.9) {
+    return
   }
-  if (!isScrollingUp.value && distanceToBottom < 100) {
-    if (page.value > 0) {
-      page.value--
-      chat.value = [...chat.value.slice(chatStore.pageSize), ...chatStore.getChatByUserId(userId, page.value)]
-    } else {
-      console.log("min page atteinte", chat.value.length)
-    }
+  if (page.value > 0) {
+    page.value--
+    // chat.value = [...chat.value.slice(chatStore.pageSize), ...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value)]
+    const tmp = chat.value
+    tmp.push(...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value))
+    chat.value = tmp.slice(tmp.length - (2 * chatStore.pageSize))
+  } else {
+    console.log("min page atteinte", chat.value.length)
+  }
+}
 
+function onScrollUp(scrollRatio: number) {
+  if (scrollRatio > 0.1) {
+    return
+  }
+  if (page.value + pageOffset.value < maxPage.value) {
+    page.value++
+    // chat.value = [...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value + pageOffset.value), ...chat.value.slice(0, chatStore.pageSize)]
+    const tmp = chat.value
+    tmp.unshift(...chatStore.getChatByUserId(appStateStore.getSelectedUser().id, page.value + pageOffset.value))
+    chat.value = tmp.slice(0, 2 * chatStore.pageSize)
+  } else {
+    console.log("max page atteinte")
   }
 }
 </script>
 
 <template>
   <div class="chat-container">
-    <ScrollPanel
-      class="scrollPanel"
-      pt:content:style="height: 100%; padding-bottom: 0"
-      :pt:content:onscroll="onScroll"
+    <LazyScrollPannel
+    @onLoadUp="onScrollUp"
+    @onLoadDown="onScrollDown"
     >
       <div class="chats">
         <UserMessage
@@ -141,7 +140,7 @@ function onScroll(event: Event) {
         />
         <div class="targetScrollBottom" ref="bottomEl"></div>
       </div>
-    </ScrollPanel>
+    </LazyScrollPannel>
 
     <Transition>
       <div v-if="page !== 0" @click="scrollToBottom(true)" class="scrollToBottom">Scroll to bottom</div>
