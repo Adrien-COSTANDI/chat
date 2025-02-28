@@ -7,11 +7,19 @@ WORKDIR /app
 COPY pnpm-lock.yaml package*.json /app/
 RUN pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm run build
+RUN pnpm run build-only
 
 
-FROM nginx:alpine
+FROM nginx:stable
+
+RUN apt-get update && apt-get install -y \
+    certbot \
+    python3-certbot-nginx \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=base /app/dist /usr/share/nginx/html
-EXPOSE 8080
+EXPOSE 80 443
+
 CMD ["nginx", "-g", "daemon off;"]
